@@ -1,7 +1,6 @@
 package edu.ewubd.bloodmap.Authentication;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,8 +10,14 @@ import android.widget.Toast;
 import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import edu.ewubd.bloodmap.ClassModels.userModel;
 import edu.ewubd.bloodmap.MainActivity;
 import edu.ewubd.bloodmap.R;
+import edu.ewubd.bloodmap.admin.AdminActivity;
 
 public class AuthActivity extends AppCompatActivity {
 
@@ -22,15 +27,20 @@ public class AuthActivity extends AppCompatActivity {
     private EditText etName, etEmail, etPassword;
     private Button btnSubmit;
     private TextView tvSwitchMode;
+    
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        
         // Check if already logged in
-        SharedPreferences prefs = getSharedPreferences("AuthPrefs", MODE_PRIVATE);
-        if (prefs.getBoolean("isLoggedIn", false)) {
-            startMainActivity();
+        if (mAuth.getCurrentUser() != null) {
+            checkAdminAndRoute(mAuth.getCurrentUser().getUid());
             return;
         }
         
@@ -75,33 +85,45 @@ public class AuthActivity extends AppCompatActivity {
             return;
         }
 
-        SharedPreferences prefs = getSharedPreferences( "AuthPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
         if (isLoginMode) {
-            String savedEmail = prefs.getString("email", null);
-            String savedPass = prefs.getString("password", null);
-            
-            if (savedEmail != null && savedEmail.equals(email) && savedPass != null && savedPass.equals(password)) {
-                editor.putBoolean("isLoggedIn", true);
-                editor.apply();
-                startMainActivity();
-            } else {
-                Toast.makeText(this, "Invalid credentials or account not found", Toast.LENGTH_SHORT).show();
-            }
+            mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                        if (mAuth.getCurrentUser() != null) {
+                            checkAdminAndRoute(mAuth.getCurrentUser().getUid());
+                        } else {
+                            startMainActivity();
+                        }
+                    } else {
+                        Toast.makeText(this, "Authentication failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
         } else {
             String name = etName.getText().toString().trim();
             if (name.isEmpty()) {
                 Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            editor.putString("name", name);
-            editor.putString("email", email);
-            editor.putString("password", password);
-            editor.putBoolean("isLoggedIn", true);
-            editor.apply();
-            Toast.makeText(this, "Sign up successful!", Toast.LENGTH_SHORT).show();
-            startMainActivity();
+            mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            userModel model = new userModel(user.getUid(), name, email);
+                            db.collection("users").document(user.getUid()).set(model)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(this, "Sign up successful!", Toast.LENGTH_SHORT).show();
+                                    checkAdminAndRoute(user.getUid());
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(this, "Failed to save user info: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                });
+                        }
+                    } else {
+                        Toast.makeText(this, "Sign up failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
         }
     }
 
@@ -109,5 +131,23 @@ public class AuthActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void checkAdminAndRoute(String uid) {
+        db.collection("users").document(uid).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                userModel user = documentSnapshot.toObject(userModel.class);
+                if (user != null && user.isAdmin()) {
+                    startActivity(new Intent(this, AdminActivity.class));
+                    finish();
+                } else {
+                    startMainActivity();
+                }
+            } else {
+                startMainActivity();
+            }
+        }).addOnFailureListener(e -> {
+            startMainActivity();
+        });
     }
 }
