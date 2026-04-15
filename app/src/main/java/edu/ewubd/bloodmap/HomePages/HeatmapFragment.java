@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import edu.ewubd.bloodmap.BloodDonorData;
+
 import edu.ewubd.bloodmap.R;
 
 import org.osmdroid.api.IMapController;
@@ -21,12 +21,31 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.Marker;
+import android.widget.RadioGroup;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.ArrayList;
 import java.util.List;
+
+import edu.ewubd.bloodmap.ClassModels.LocationModel;
+import edu.ewubd.bloodmap.ClassModels.UserModel;
+import edu.ewubd.bloodmap.ClassModels.HospitalContactModel;
+import edu.ewubd.bloodmap.ClassModels.BloodBankModel;
 
 public class HeatmapFragment extends Fragment {
 
     private MapView map = null;
+    private RadioGroup rgMapMode;
+    private FirebaseFirestore db;
+    
+    private List<LocationModel> cachedAreas = new ArrayList<>();
+    private List<HospitalContactModel> cachedHospitals = new ArrayList<>();
+    private List<BloodBankModel> cachedBloodBanks = new ArrayList<>();
+    private final Map<String, Integer> donorCounts = new HashMap<>();
 
     @Nullable
     @Override
@@ -37,6 +56,8 @@ public class HeatmapFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_heatmap, container, false);
         map = view.findViewById(R.id.map);
+        rgMapMode = view.findViewById(R.id.rgMapMode);
+        db = FirebaseFirestore.getInstance();
 
         if (map != null) {
             map.setTileSource(TileSourceFactory.MAPNIK);
@@ -44,50 +65,142 @@ public class HeatmapFragment extends Fragment {
 
             IMapController mapController = map.getController();
             mapController.setZoom(11.5);
-            GeoPoint startPoint = new GeoPoint(23.7808, 90.3932);
+            GeoPoint startPoint = new GeoPoint(23.7808, 90.3932); // Dhaka
             mapController.setCenter(startPoint);
-
-            List<BloodDonorData.DonorArea> donorAreas = BloodDonorData.getDonorAreas();
-            
-            if (donorAreas != null) {
-                for (final BloodDonorData.DonorArea area : donorAreas) {
-                    Polygon polygon = new Polygon();
-                    polygon.setPoints(area.border);
-                    
-                    int fillColor = getAreaColor(area.donorCount);
-                    polygon.getFillPaint().setColor(fillColor);
-                    polygon.getFillPaint().setAlpha(150);
-                    
-                    polygon.getOutlinePaint().setColor(Color.WHITE);
-                    polygon.getOutlinePaint().setStrokeWidth(3);
-
-                    polygon.setOnClickListener((poly, mapView, eventPos) -> {
-                        Toast.makeText(requireContext(), area.name + ": " + area.donorCount + " Donors", Toast.LENGTH_SHORT).show();
-                        return true;
-                    });
-
-                    polygon.setTitle(area.name + "\nDonors: " + area.donorCount);
-                    map.getOverlays().add(polygon);
-                }
-            }
-            map.invalidate();
         }
+
+        rgMapMode.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbDonors) {
+                loadDonors();
+            } else if (checkedId == R.id.rbHospitals) {
+                loadHospitals();
+            } else if (checkedId == R.id.rbBloodBanks) {
+                loadBloodBanks();
+            }
+        });
+
+        // Initialize mapping caches aggressively
+        preloadLocations();
 
         return view;
     }
 
-    private int getAreaColor(int count) {
-        float ratio = (float) Math.min(Math.max((count - 300) / 700.0, 0.0), 1.0);
+    private void preloadLocations() {
+        // Cache Areas
+        db.collection("locations_areas").get().addOnSuccessListener(querySnapshots -> {
+            cachedAreas.clear();
+            for (QueryDocumentSnapshot doc : querySnapshots) {
+                cachedAreas.add(doc.toObject(LocationModel.class));
+            }
+            // By default, trigger donors logic first natively since it was selected
+            if (rgMapMode.getCheckedRadioButtonId() == R.id.rbDonors) loadDonors();
+        });
+
+        // Cache Hospitals quietly in the background
+        db.collection("hospitals").get().addOnSuccessListener(querySnapshots -> {
+            cachedHospitals.clear();
+            for (QueryDocumentSnapshot doc : querySnapshots) {
+                cachedHospitals.add(doc.toObject(HospitalContactModel.class));
+            }
+        });
         
-        int r, g, b = 0;
-        if (ratio < 0.5) {
-            r = 255;
-            g = (int) (ratio * 2 * 255);
-        } else {
-            r = (int) ((1.0 - ratio) * 2 * 255);
-            g = 255;
+        // Cache Blood Banks actively
+        db.collection("blood_banks").get().addOnSuccessListener(querySnapshots -> {
+            cachedBloodBanks.clear();
+            for (QueryDocumentSnapshot doc : querySnapshots) {
+                cachedBloodBanks.add(doc.toObject(BloodBankModel.class));
+            }
+        });
+    }
+
+    private void loadDonors() {
+        if (map == null) return;
+        map.getOverlays().clear();
+
+        db.collection("users").whereEqualTo("availableToDonate", true).get()
+            .addOnSuccessListener(querySnapshots -> {
+                donorCounts.clear();
+                for (QueryDocumentSnapshot doc : querySnapshots) {
+                    UserModel user = doc.toObject(UserModel.class);
+                    String area = user.getLocationArea();
+                    if (area != null && !area.isEmpty()) {
+                        donorCounts.put(area, donorCounts.getOrDefault(area, 0) + 1);
+                    }
+                }
+
+                // Match counts against coordinates precisely
+                for (LocationModel area : cachedAreas) {
+                    int count = donorCounts.getOrDefault(area.getName(), 0);
+                    if (count > 0) {
+                        spawnMarker(area.getLatitude(), area.getLongitude(), area.getName(), count + " Active Donors Available");
+                    }
+                }
+                map.invalidate();
+            });
+    }
+
+    private void loadHospitals() {
+        if (map == null) return;
+        map.getOverlays().clear();
+
+        for (HospitalContactModel hosp : cachedHospitals) {
+            spawnMarker(hosp.getLatitude(), hosp.getLongitude(), hosp.getHospitalName() != null ? hosp.getHospitalName() : "Unknown Hospital", "Healthcare Facility");
         }
-        return Color.rgb(r, g, b);
+        
+        map.invalidate();
+    }
+
+    private void loadBloodBanks() {
+        if (map == null) return;
+        map.getOverlays().clear();
+
+        for (BloodBankModel bank : cachedBloodBanks) {
+            spawnMarker(bank.getLatitude(), bank.getLongitude(), bank.getBankName() != null ? bank.getBankName() : "Unknown Bank", "Blood Bank Facility");
+        }
+        
+        map.invalidate();
+    }
+
+    private void spawnMarker(double lat, double lon, String title, String snippet) {
+        if (lat == 0.0 && lon == 0.0) return; // Avoid dropping pins into the Gulf of Guinea organically
+        GeoPoint point = new GeoPoint(lat, lon);
+        Marker marker = new Marker(map);
+        marker.setPosition(point);
+        marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        marker.setTitle(title);
+        marker.setSnippet(snippet);
+        
+        marker.setOnMarkerClickListener((m, mapView) -> {
+            m.showInfoWindow();
+            
+            if (m.getInfoWindow() != null && m.getInfoWindow().getView() != null) {
+                android.view.View infoView = m.getInfoWindow().getView();
+                
+                // Osmdroid default layouts often trap clicks in nested TextViews. 
+                // We use OnTouchListener on the parent wrapper to aggressively intercept the physical tap.
+                infoView.setOnTouchListener((v, event) -> {
+                    if (event.getAction() == android.view.MotionEvent.ACTION_UP) {
+                        m.closeInfoWindow(); // Close cleanly first
+                        if (rgMapMode.getCheckedRadioButtonId() == R.id.rbDonors) {
+                            edu.ewubd.bloodmap.HomePages.availableFrag.AvailableFragment.pendingSearchQuery = title;
+                            if (requireActivity() instanceof edu.ewubd.bloodmap.MainActivity) {
+                                ((edu.ewubd.bloodmap.MainActivity) requireActivity()).selectTab(2);
+                            }
+                        } else if (rgMapMode.getCheckedRadioButtonId() == R.id.rbHospitals) {
+                            android.content.Intent intent = new android.content.Intent(requireContext(), edu.ewubd.bloodmap.DrawerPages.HospitalContactsActivity.class);
+                            startActivity(intent);
+                        } else {
+                            android.content.Intent intent = new android.content.Intent(requireContext(), edu.ewubd.bloodmap.DrawerPages.BloodBanksActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                    return true;
+                });
+            }
+            return true;
+        });
+        
+        map.getOverlays().add(marker);
     }
 
     @Override

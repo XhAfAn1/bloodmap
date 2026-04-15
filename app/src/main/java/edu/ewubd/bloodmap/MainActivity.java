@@ -20,7 +20,7 @@ import edu.ewubd.bloodmap.DrawerPages.HospitalContactsActivity;
 import edu.ewubd.bloodmap.DrawerPages.OpenRequestsActivity;
 import edu.ewubd.bloodmap.DrawerPages.OpenResponsesActivity;
 import edu.ewubd.bloodmap.DrawerPages.ReceivedHistoryActivity;
-import edu.ewubd.bloodmap.HomePages.AvailableFragment;
+import edu.ewubd.bloodmap.HomePages.availableFrag.AvailableFragment;
 import edu.ewubd.bloodmap.HomePages.HeatmapFragment;
 import edu.ewubd.bloodmap.HomePages.requestFrag.NewRequestFragment;
 import edu.ewubd.bloodmap.HomePages.requestFrag.RequestsFragment;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void selectTab(int index) {
+    public void selectTab(int index) {
         currentTabIndex = index;
         findViewById(R.id.bottom_navbar).setVisibility(View.VISIBLE);
         highlightTabBasedOnIndex(index);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,5 +9,57 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <!-- FLOATING TOGGLE MENU -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="#FFFFFF">
+
+        <RadioGroup
+            android:id="@+id/rgMapMode"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingHorizontal="20dp">
+
+            <RadioButton
+                android:id="@+id/rbDonors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" DONORS"
+                android:textColor="#D11A2A"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:checked="true"
+                android:layout_marginEnd="16dp"/>
+
+            <RadioButton
+                android:id="@+id/rbHospitals"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" HOSPITALS"
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp" />
+                
+            <RadioButton
+                android:id="@+id/rbBloodBanks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" BLOOD BANKS"
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+        </RadioGroup>
+    </androidx.cardview.widget.CardView>
 
 </RelativeLayout>
