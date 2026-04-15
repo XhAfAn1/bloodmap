@@ -2,8 +2,10 @@ package edu.ewubd.bloodmap.ProfilePage;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +20,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
+import java.util.ArrayList;
+import java.util.List;
+import edu.ewubd.bloodmap.ClassModels.LocationModel;
 import edu.ewubd.bloodmap.ClassModels.UserModel;
 import edu.ewubd.bloodmap.R;
 
@@ -33,7 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     // Edit Mode UI
     private LinearLayout llEditMode;
-    private EditText etFullName, etBloodGroup, etPhone, etLocation, etAddress, etGender, etDob;
+    private EditText etFullName, etBloodGroup, etPhone, etAddress, etGender, etDob;
+    private AutoCompleteTextView etLocation;
     private SwitchMaterial swAvailableToDonate;
     private Button btnSaveProfile, btnCancelEdit;
     
@@ -48,6 +53,9 @@ public class ProfileActivity extends AppCompatActivity {
     private UserModel currentModel;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     private boolean isEditing = false;
+    
+    private final List<LocationModel> locationAreaList = new ArrayList<>();
+    private ArrayAdapter<LocationModel> areaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         currentUser = mAuth.getCurrentUser();
+        
+        fetchFirebaseAreas();
 
         if (currentUser != null) {
             loadUserProfile();
@@ -115,6 +125,24 @@ public class ProfileActivity extends AppCompatActivity {
             llEditMode.setVisibility(View.GONE);
             btnToggleEdit.setVisibility(View.VISIBLE);
         }
+    }
+    
+    private void fetchFirebaseAreas() {
+        areaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, locationAreaList);
+        etLocation.setAdapter(areaAdapter);
+
+        db.collection("locations_areas").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            locationAreaList.clear();
+            for (com.google.firebase.firestore.QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                try {
+                    LocationModel location = doc.toObject(LocationModel.class);
+                    locationAreaList.add(location);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            areaAdapter.notifyDataSetChanged();
+        });
     }
 
     private void loadUserProfile() {
