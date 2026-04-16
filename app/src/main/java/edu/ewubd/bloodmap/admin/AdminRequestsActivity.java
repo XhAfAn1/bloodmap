@@ -15,13 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.ewubd.bloodmap.ClassModels.BloodTransactionModel;
-import edu.ewubd.bloodmap.HomePages.requestFrag.RequestAdapter;
 import edu.ewubd.bloodmap.R;
 
 public class AdminRequestsActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private RequestAdapter adapter;
+    private AdminRequestAdapter adapter;
     private List<BloodTransactionModel> requestList;
     private String statusFilter = "OPEN";
 
@@ -42,7 +41,7 @@ public class AdminRequestsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         requestList = new ArrayList<>();
-        adapter = new RequestAdapter(requestList, null, true);
+        adapter = new AdminRequestAdapter(requestList);
         recyclerView.setAdapter(adapter);
 
         loadRequests();
