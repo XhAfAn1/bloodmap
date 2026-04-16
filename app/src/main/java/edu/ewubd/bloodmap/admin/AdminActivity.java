@@ -14,8 +14,8 @@ import com.google.firebase.firestore.AggregateSource;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.ewubd.bloodmap.Authentication.AuthActivity;
-import edu.ewubd.bloodmap.DrawerPages.BloodBanksActivity;
-import edu.ewubd.bloodmap.DrawerPages.HospitalContactsActivity;
+import edu.ewubd.bloodmap.DrawerPages.nearBloodBank.BloodBanksActivity;
+import edu.ewubd.bloodmap.DrawerPages.nearHospital.HospitalContactsActivity;
 import edu.ewubd.bloodmap.R;
 
 public class AdminActivity extends AppCompatActivity {

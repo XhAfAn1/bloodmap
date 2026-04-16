@@ -1,7 +1,6 @@
-package edu.ewubd.bloodmap.DrawerPages;
+package edu.ewubd.bloodmap.DrawerPages.nearHospital;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
 import edu.ewubd.bloodmap.ClassModels.HospitalContactModel;
 import edu.ewubd.bloodmap.R;

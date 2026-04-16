@@ -16,11 +16,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.app.AlertDialog;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FieldValue;
 
 import edu.ewubd.bloodmap.ClassModels.BloodTransactionModel;
 import edu.ewubd.bloodmap.R;
 
-public class RequestsFragment extends Fragment {
+public class RequestsFragment extends Fragment implements RequestAdapter.OnRequestActionListener {
     
     private RecyclerView recyclerView;
     private RequestAdapter adapter;
@@ -35,7 +38,7 @@ public class RequestsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         
         requestList = new ArrayList<>();
-        adapter = new RequestAdapter(requestList);
+        adapter = new RequestAdapter(requestList, this);
         recyclerView.setAdapter(adapter);
         
         loadRequests();
@@ -58,6 +61,52 @@ public class RequestsFragment extends Fragment {
             .addOnFailureListener(e -> {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Failed to load requests", Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    @Override
+    public void onRespondClick(BloodTransactionModel model, int position) {
+        String currentUid = FirebaseAuth.getInstance().getUid();
+        if (currentUid == null) {
+            Toast.makeText(getContext(), "You must be logged in to respond.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (currentUid.equals(model.getRequesterUid())) {
+            new AlertDialog.Builder(getContext())
+                .setTitle("Invalid Action")
+                .setMessage("You cannot respond to your own blood request.")
+                .setPositiveButton("OK", null)
+                .show();
+            return;
+        }
+
+        new AlertDialog.Builder(getContext())
+            .setTitle("Confirm Response")
+            .setMessage("Are you sure you want to respond to this request? This will notify the patient.")
+            .setPositiveButton("Respond", (dialog, which) -> executeResponse(model, position, currentUid))
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    private void executeResponse(BloodTransactionModel model, int position, String currentUid) {
+        FirebaseFirestore.getInstance().collection("transactions").document(model.getTransactionId())
+            .update("responderUids", FieldValue.arrayUnion(currentUid))
+            .addOnSuccessListener(aVoid -> {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Response Sent!", Toast.LENGTH_SHORT).show();
+                    // Update local model so the button greys out immediately without full reload
+                    if (model.getResponderUids() == null) {
+                        model.setResponderUids(new ArrayList<>());
+                    }
+                    model.getResponderUids().add(currentUid);
+                    adapter.notifyItemChanged(position);
+                }
+            })
+            .addOnFailureListener(e -> {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Failed to send response.", Toast.LENGTH_SHORT).show();
                 }
             });
     }

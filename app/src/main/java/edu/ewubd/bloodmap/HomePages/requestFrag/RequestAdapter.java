@@ -4,18 +4,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
 import edu.ewubd.bloodmap.ClassModels.BloodTransactionModel;
 import edu.ewubd.bloodmap.R;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestViewHolder> {
 
-    private List<BloodTransactionModel> requestList;
+    public interface OnRequestActionListener {
+        void onRespondClick(BloodTransactionModel model, int position);
+    }
 
-    public RequestAdapter(List<BloodTransactionModel> requestList) {
+    private List<BloodTransactionModel> requestList;
+    private OnRequestActionListener actionListener;
+    private String currentUid;
+    private boolean isHistoryMode;
+
+    public RequestAdapter(List<BloodTransactionModel> requestList, OnRequestActionListener actionListener, boolean isHistoryMode) {
         this.requestList = requestList;
+        this.actionListener = actionListener;
+        this.isHistoryMode = isHistoryMode;
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            this.currentUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        } else {
+            this.currentUid = "";
+        }
+    }
+
+    public RequestAdapter(List<BloodTransactionModel> requestList, OnRequestActionListener actionListener) {
+        this(requestList, actionListener, false);
     }
 
     @NonNull
@@ -40,7 +60,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
 
         String patientInfo = "Patient: " + model.getPatientName();
         if (model.getPatientAge() != null && !model.getPatientAge().isEmpty()) {
-            patientInfo += " (Age: " + model.getPatientAge() + ")";
+            patientInfo += " (Age: " + model.getPatientAge();
+            if (model.getPatientGender() != null && !model.getPatientGender().isEmpty()) {
+                patientInfo += ", Gender: " + model.getPatientGender();
+            }
+            patientInfo += ")";
+        } else if (model.getPatientGender() != null && !model.getPatientGender().isEmpty()) {
+            patientInfo += " (Gender: " + model.getPatientGender() + ")";
         }
         holder.tvPatientDetails.setText(patientInfo);
 
@@ -49,6 +75,13 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             holder.tvReason.setVisibility(View.VISIBLE);
         } else {
             holder.tvReason.setVisibility(View.GONE);
+        }
+
+        if (model.getNotes() != null && !model.getNotes().isEmpty()) {
+            holder.tvNotes.setText("Notes: " + model.getNotes());
+            holder.tvNotes.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvNotes.setVisibility(View.GONE);
         }
 
         String location = model.getHospitalNameArea() != null ? model.getHospitalNameArea() : "";
@@ -65,6 +98,34 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             String dateStr = sdf.format(new java.util.Date(model.getNeededByTime()));
             holder.tvTime.setText("Needed by: " + dateStr);
         }
+        
+        if (model.getStatusMessage() != null && !model.getStatusMessage().isEmpty()) {
+            holder.tvStatusMessage.setText(model.getStatusMessage());
+            holder.tvStatusMessage.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvStatusMessage.setVisibility(View.GONE);
+        }
+        
+        if (isHistoryMode) {
+            holder.btnRespond.setVisibility(View.GONE);
+        } else {
+            holder.btnRespond.setVisibility(View.VISIBLE);
+            if (model.getResponderUids() != null && model.getResponderUids().contains(currentUid)) {
+                holder.btnRespond.setText("RESPONDED");
+                holder.btnRespond.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#AAAAAA")));
+                holder.btnRespond.setEnabled(false);
+            } else {
+                holder.btnRespond.setText("RESPOND");
+                holder.btnRespond.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#D11A2A")));
+                holder.btnRespond.setEnabled(true);
+            }
+
+            holder.btnRespond.setOnClickListener(v -> {
+                if (actionListener != null) {
+                    actionListener.onRespondClick(model, position);
+                }
+            });
+        }
     }
 
     @Override
@@ -73,7 +134,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     }
 
     static class RequestViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvHospital, tvTime, tvUrgency, tvPatientDetails, tvReason;
+        TextView tvTitle, tvHospital, tvTime, tvUrgency, tvPatientDetails, tvReason, tvNotes, tvStatusMessage;
+        Button btnRespond;
 
         public RequestViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +145,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             tvUrgency = itemView.findViewById(R.id.tvUrgency);
             tvPatientDetails = itemView.findViewById(R.id.tvPatientDetails);
             tvReason = itemView.findViewById(R.id.tvReason);
+            tvNotes = itemView.findViewById(R.id.tvNotes);
+            tvStatusMessage = itemView.findViewById(R.id.tvStatusMessage);
+            btnRespond = itemView.findViewById(R.id.btnRespond);
         }
     }
 }

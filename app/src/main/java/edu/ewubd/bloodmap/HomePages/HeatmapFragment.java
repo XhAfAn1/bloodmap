@@ -1,18 +1,19 @@
 package edu.ewubd.bloodmap.HomePages;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import edu.ewubd.bloodmap.DrawerPages.nearBloodBank.BloodBanksActivity;
+import edu.ewubd.bloodmap.DrawerPages.nearHospital.HospitalContactsActivity;
 import edu.ewubd.bloodmap.R;
 
 import org.osmdroid.api.IMapController;
@@ -20,7 +21,6 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Marker;
 import android.widget.RadioGroup;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -187,10 +187,10 @@ public class HeatmapFragment extends Fragment {
                                 ((edu.ewubd.bloodmap.MainActivity) requireActivity()).selectTab(2);
                             }
                         } else if (rgMapMode.getCheckedRadioButtonId() == R.id.rbHospitals) {
-                            android.content.Intent intent = new android.content.Intent(requireContext(), edu.ewubd.bloodmap.DrawerPages.HospitalContactsActivity.class);
+                            android.content.Intent intent = new android.content.Intent(requireContext(), HospitalContactsActivity.class);
                             startActivity(intent);
                         } else {
-                            android.content.Intent intent = new android.content.Intent(requireContext(), edu.ewubd.bloodmap.DrawerPages.BloodBanksActivity.class);
+                            android.content.Intent intent = new android.content.Intent(requireContext(), BloodBanksActivity.class);
                             startActivity(intent);
                         }
                     }

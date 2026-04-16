@@ -1,4 +1,4 @@
-package edu.ewubd.bloodmap.DrawerPages;
+package edu.ewubd.bloodmap.DrawerPages.nearHospital;
 
 import android.content.Intent;
 import android.os.Bundle;

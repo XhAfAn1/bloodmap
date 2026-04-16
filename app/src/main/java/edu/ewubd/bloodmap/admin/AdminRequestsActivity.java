@@ -42,7 +42,7 @@ public class AdminRequestsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         requestList = new ArrayList<>();
-        adapter = new RequestAdapter(requestList);
+        adapter = new RequestAdapter(requestList, null, true);
         recyclerView.setAdapter(adapter);
 
         loadRequests();
