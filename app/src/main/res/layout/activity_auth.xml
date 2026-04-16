@@ -1,116 +1,327 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp"
-    android:background="#F5F7FA">
+    android:background="#F5F6F9"
+    android:fillViewport="true">
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="2dp"
-        app:cardBackgroundColor="#FFFFFF">
+        android:paddingBottom="32dp">
 
-        <LinearLayout
+
+        <!-- Top Header -->
+        <TextView
+            android:id="@+id/tvVitalityLogoLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:letterSpacing="0.15"
+            android:text="RoktoDhara"
+            android:textColor="#A30F24"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:src="@android:drawable/ic_menu_help"
+            app:tint="#4A4A4A"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Blood Drop Logo -->
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="48dp"
+            android:src="@drawable/ic_blood_drop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvVitalityLogoLabel" />
+
+        <!-- Titles -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Login"
+            android:textColor="#111827"
+            android:textSize="36sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivLogo" />
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
+            android:text="Join a dedicated community committed to saving lives through blood donation"
+            android:textAlignment="center"
+            android:textColor="#4B5563"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <!-- Form Card Container -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="32dp"
-            android:gravity="center_horizontal">
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Login"
-                android:textSize="28sp"
-                android:textColor="#2D3748"
-                android:textStyle="bold"
-                android:layout_marginBottom="32dp" />
-
-            <LinearLayout
-                android:id="@+id/llName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone">
-
-                <EditText
-                    android:id="@+id/etName"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="#EDF2F7"
-                    android:hint="Full Name"
-                    android:inputType="textPersonName"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="#2D3748"
-                    android:textColorHint="#A0AEC0"
-                    android:textSize="16sp" />
-            </LinearLayout>
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp">
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/etEmail"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="#EDF2F7"
-                    android:hint="Email Address"
-                    android:inputType="textEmailAddress"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="#2D3748"
-                    android:textColorHint="#A0AEC0"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    android:layout_height="6dp"
+                    android:background="#A30F24" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp">
-
-                <EditText
-                    android:id="@+id/etPassword"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="#EDF2F7"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:paddingHorizontal="16dp"
-                    android:textColor="#2D3748"
-                    android:textColorHint="#A0AEC0"
-                    android:textSize="16sp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="32dp"
+                    android:paddingBottom="32dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp">
+
+                    <!-- Name Layout -->
+                    <LinearLayout
+                        android:id="@+id/llName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:letterSpacing="0.05"
+                            android:text="FULL NAME"
+                            android:textColor="#4B5563"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            app:cardBackgroundColor="#FFFFFF"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E5E7EB"
+                            app:strokeWidth="1dp">
+
+                            <EditText
+                                android:id="@+id/etName"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:hint="Johnathan Doe"
+                                android:inputType="textPersonName"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp"
+                                android:textColor="#111827"
+                                android:textColorHint="#9CA3AF"
+                                android:textSize="15sp" />
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                    <!-- Email Layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:letterSpacing="0.05"
+                            android:text="EMAIL ADDRESS"
+                            android:textColor="#4B5563"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            app:cardBackgroundColor="#FFFFFF"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E5E7EB"
+                            app:strokeWidth="1dp">
+
+                            <EditText
+                                android:id="@+id/etEmail"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:hint="name@clinical.com"
+                                android:inputType="textEmailAddress"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp"
+                                android:textColor="#111827"
+                                android:textColorHint="#9CA3AF"
+                                android:textSize="15sp" />
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                    <!-- Password Layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:letterSpacing="0.05"
+                                android:text="PASSWORD"
+                                android:textColor="#4B5563"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvForgot"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:letterSpacing="0.05"
+                                android:text="FORGOT?"
+                                android:textColor="#A30F24"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:visibility="gone" />
+                        </RelativeLayout>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="match_parent"
+                            android:layout_height="54dp"
+                            app:cardBackgroundColor="#FFFFFF"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="0dp"
+                            app:strokeColor="#E5E7EB"
+                            app:strokeWidth="1dp">
+
+                            <EditText
+                                android:id="@+id/etPassword"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@null"
+                                android:hint="••••••••"
+                                android:inputType="textPassword"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp"
+                                android:textColor="#111827"
+                                android:textColorHint="#9CA3AF"
+                                android:textSize="15sp" />
+                        </com.google.android.material.card.MaterialCardView>
+                    </LinearLayout>
+
+                        <!-- DUMMY CODE SECTION: Terms CheckBox -->
+                        <!-- NOTE: This Checkbox is set to 'gone' natively so it does not appear on the Login page! 
+                             To make it successfully appear only on the Sign Up mode, your Java developer 
+                             must hook into its ID (cbTerms) and toggle its visibility to VISIBLE within AuthActivity. -->
+                        <CheckBox
+                            android:id="@+id/cbTerms"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="32dp"
+                            android:buttonTint="#A30F24"
+                            android:text="I agree to the Terms of Service and Privacy Policy regarding clinical data."
+                            android:textColor="#4B5563"
+                            android:textSize="13sp"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+
+                    <!-- Submit Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:backgroundTint="#A30F24"
+                        android:text="Login"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="12dp" />
+
+
+
+                </LinearLayout>
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSubmit"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:text="Login"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:background="#4CAF50"
-                android:textAllCaps="false" />
+        <!-- Switch Mode Text -->
+        <TextView
+            android:id="@+id/tvSwitchMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:padding="8dp"
+            android:text="Don't have an account? Sign up"
+            android:textColor="#4B5563"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardForm" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        <!-- Footer -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="32dp"
+            android:text="© 2026 RoktoDhara CSE489 Team Dynasty\n version 1.2 "
+            android:textAlignment="center"
+            android:textColor="#9CA3AF"
+            android:textSize="11sp"
+            android:letterSpacing="0.05"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSwitchMode"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/tvSwitchMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Don't have an account? Sign Up"
-        android:textColor="#4A5568"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:padding="8dp"/>
-
-</LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

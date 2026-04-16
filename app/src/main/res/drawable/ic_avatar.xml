@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="120dp" android:height="120dp" android:viewportWidth="120.0" android:viewportHeight="120.0">
+    <!-- Shirt -->
+    <path android:fillColor="#E3E8EC" android:pathData="M15,120 C15,90 35,80 60,80 C85,80 105,90 105,120 Z" />
+    <!-- Neck -->
+    <path android:fillColor="#F6C9AC" android:pathData="M45,80 L45,95 C45,100 75,100 75,95 L75,80 Z" />
+    <!-- Head Base -->
+    <path android:fillColor="#FAD3B6" android:pathData="M35,60 C35,95 85,95 85,60 C85,25 35,25 35,60 Z" />
+    <!-- Ears -->
+    <path android:fillColor="#F6C9AC" android:pathData="M28,60 C28,75 38,75 38,60 Z" />
+    <path android:fillColor="#F6C9AC" android:pathData="M92,60 C92,75 82,75 82,60 Z" />
+    <!-- Eyes -->
+    <path android:fillColor="#2D3B48" android:pathData="M47,55 C47,52 53,52 53,55 C53,58 47,58 47,55" />
+    <path android:fillColor="#2D3B48" android:pathData="M67,55 C67,52 73,52 73,55 C73,58 67,58 67,55" />
+    <!-- Eyebrows -->
+    <path android:fillColor="#2D3B48" android:pathData="M45,48 Q50,45 55,48 Z" />
+    <path android:fillColor="#2D3B48" android:pathData="M65,48 Q70,45 75,48 Z" />
+    <!-- Mouth -->
+    <path android:fillColor="#D59C78" android:pathData="M55,75 Q60,78 65,75 Q60,80 55,75 Z" />
+    <!-- Hair -->
+    <path android:fillColor="#2C3D4B" android:pathData="M32,55 C30,20 90,20 88,55 C75,30 45,30 32,55 Z" />
+    <path android:fillColor="#2C3D4B" android:pathData="M35,50 Q35,65 40,65 C40,40 80,40 80,65 Q85,65 85,50 Z" />
+</vector>
