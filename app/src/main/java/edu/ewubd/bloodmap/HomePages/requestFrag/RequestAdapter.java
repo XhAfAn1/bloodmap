@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Button;
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.auth.FirebaseAuth;
 import java.util.List;
@@ -51,6 +52,19 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         
         holder.tvTitle.setText(model.getBloodGroup() + " Blood Required (" + model.getUnitsRequired() + " Units)");
         
+        // Premium request styling
+        if (model.isPremiumRequest()) {
+            holder.tvPremiumBadge.setVisibility(View.VISIBLE);
+            if (holder.itemView instanceof CardView) {
+                ((CardView) holder.itemView).setCardBackgroundColor(android.graphics.Color.parseColor("#FFF0F0"));
+            }
+        } else {
+            holder.tvPremiumBadge.setVisibility(View.GONE);
+            if (holder.itemView instanceof CardView) {
+                ((CardView) holder.itemView).setCardBackgroundColor(android.graphics.Color.WHITE);
+            }
+        }
+
         if (model.getUrgencyLevel() != null && !model.getUrgencyLevel().isEmpty()) {
             holder.tvUrgency.setText(model.getUrgencyLevel());
             holder.tvUrgency.setVisibility(View.VISIBLE);
@@ -134,7 +148,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     }
  
     static class RequestViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvHospital, tvTime, tvUrgency, tvPatientDetails, tvReason, tvNotes, tvStatusMessage;
+        TextView tvTitle, tvHospital, tvTime, tvUrgency, tvPatientDetails, tvReason, tvNotes, tvStatusMessage, tvPremiumBadge;
         Button btnRespond;
  
         public RequestViewHolder(@NonNull View itemView) {
@@ -147,6 +161,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             tvReason = itemView.findViewById(R.id.tvReason);
             tvNotes = itemView.findViewById(R.id.tvNotes);
             tvStatusMessage = itemView.findViewById(R.id.tvStatusMessage);
+            tvPremiumBadge = itemView.findViewById(R.id.tvPremiumBadge);
             btnRespond = itemView.findViewById(R.id.btnRespond);
         }
     }

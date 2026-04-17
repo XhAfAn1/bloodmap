@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import android.app.AlertDialog;
 import com.google.firebase.auth.FirebaseAuth;
@@ -81,6 +82,8 @@ public class RequestsFragment extends Fragment implements RequestAdapter.OnReque
                         BloodTransactionModel model = doc.toObject(BloodTransactionModel.class);
                         requestList.add(model);
                     }
+                    // Sort premium requests to top
+                    Collections.sort(requestList, (a, b) -> Boolean.compare(b.isPremiumRequest(), a.isPremiumRequest()));
                     adapter.notifyDataSetChanged();
                 }
             });
@@ -94,23 +97,34 @@ public class RequestsFragment extends Fragment implements RequestAdapter.OnReque
             return;
         }
 
-        if (currentUid.equals(model.getRequesterUid())) {
-            new AlertDialog.Builder(getContext())
-                .setTitle("Invalid Action")
-                .setMessage("You cannot respond to your own blood request.")
-                .setPositiveButton("OK", null)
-                .show();
-            return;
-        }
-
-        // check profile before allowing response
+        // First check if user is banned
         FirebaseFirestore.getInstance().collection("users").document(currentUid).get()
-            .addOnSuccessListener(doc -> {
+            .addOnSuccessListener(userDoc -> {
                 if (getContext() == null) return;
-                String bloodGroup = doc.getString("bloodGroup");
-                String contactNumber = doc.getString("contactNumber");
+                String userStatus = userDoc.getString("status");
+                if ("BLOCKED".equalsIgnoreCase(userStatus)) {
+                    new AlertDialog.Builder(getContext())
+                        .setTitle("Account Suspended")
+                        .setMessage("You have been banned. You cannot perform this operation.")
+                        .setPositiveButton("OK", null)
+                        .show();
+                    return;
+                }
+
+                if (currentUid.equals(model.getRequesterUid())) {
+                    new AlertDialog.Builder(getContext())
+                        .setTitle("Invalid Action")
+                        .setMessage("You cannot respond to your own blood request.")
+                        .setPositiveButton("OK", null)
+                        .show();
+                    return;
+                }
+
+                // check profile before allowing response
+                String bloodGroup = userDoc.getString("bloodGroup");
+                String contactNumber = userDoc.getString("contactNumber");
                 boolean incomplete = (bloodGroup == null || bloodGroup.isEmpty())
-                        || (contactNumber == null || contactNumber.isEmpty());
+                    || (contactNumber == null || contactNumber.isEmpty());
                 if (incomplete) {
                     new AlertDialog.Builder(getContext())
                         .setTitle("Profile Incomplete")

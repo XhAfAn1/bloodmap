@@ -32,6 +32,20 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvPremiumBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:layout_marginEnd="4dp"
+                android:background="#FFD700"
+                android:text="⭐ PREMIUM"
+                android:textColor="#7B4F00"
+                android:textStyle="bold"
+                android:textSize="11sp"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/tvUrgency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -96,4 +96,8 @@ public class BloodTransactionModel {
 
     public String getStatusMessage() { return statusMessage; }
     public void setStatusMessage(String statusMessage) { this.statusMessage = statusMessage; }
+
+    private boolean premiumRequest;
+    public boolean isPremiumRequest() { return premiumRequest; }
+    public void setPremiumRequest(boolean premiumRequest) { this.premiumRequest = premiumRequest; }
 }

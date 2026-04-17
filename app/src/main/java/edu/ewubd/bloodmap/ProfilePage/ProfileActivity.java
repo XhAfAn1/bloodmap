@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -286,8 +287,14 @@ public class ProfileActivity extends AppCompatActivity {
         currentModel.setAddress(etAddress.getText().toString().trim());
         currentModel.setContactNumber(etPhone.getText().toString().trim());
         currentModel.setGender(etGender.getText().toString().trim());
-        currentModel.setAvailableToDonate(swAvailableToDonate.isChecked());
-        
+        boolean isNowAvailable = swAvailableToDonate.isChecked();
+        currentModel.setAvailableToDonate(isNowAvailable);
+
+        // If turning availability ON manually, clear the nextEligibleDate so they are immediately eligible
+        if (isNowAvailable) {
+            currentModel.setNextEligibleDate(null);
+        }
+
         String dobStr = etDob.getText().toString().trim();
         if (!dobStr.isEmpty()) {
             try {
@@ -298,14 +305,19 @@ public class ProfileActivity extends AppCompatActivity {
                 return;
             }
         }
-        
+
         currentModel.setUpdatedAt(new Date());
 
         db.collection("users").document(currentUser.getUid()).set(currentModel)
             .addOnSuccessListener(aVoid -> {
+                // If they turned availability ON, also explicitly delete nextEligibleDate from Firestore
+                if (isNowAvailable) {
+                    db.collection("users").document(currentUser.getUid())
+                        .update("nextEligibleDate", FieldValue.delete());
+                }
                 Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                populateViewMode(); // Update the UI
-                toggleEditMode(false); // Switch back to read-only
+                populateViewMode();
+                toggleEditMode(false);
             })
             .addOnFailureListener(e -> Toast.makeText(this, "Failed to save profile", Toast.LENGTH_SHORT).show());
     }

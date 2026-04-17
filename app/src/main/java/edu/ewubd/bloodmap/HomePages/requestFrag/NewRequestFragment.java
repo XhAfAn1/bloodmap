@@ -29,9 +29,13 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.util.Log;
+
 import edu.ewubd.bloodmap.ClassModels.BloodTransactionModel;
 import edu.ewubd.bloodmap.ClassModels.LocationModel;
 import edu.ewubd.bloodmap.MainActivity;
+import edu.ewubd.bloodmap.Notifications.NotificationSender;
 import edu.ewubd.bloodmap.R;
 
 public class NewRequestFragment extends Fragment {
@@ -222,6 +226,46 @@ public class NewRequestFragment extends Fragment {
             return;
         }
 
+        // Check ban & premium status before submitting
+        FirebaseFirestore.getInstance().collection("users").document(user.getUid()).get()
+            .addOnSuccessListener(userDoc -> {
+                if (getContext() == null) return;
+
+                // Ban check
+                String userStatus = userDoc.getString("status");
+                if ("BLOCKED".equalsIgnoreCase(userStatus)) {
+                    new AlertDialog.Builder(getContext())
+                        .setTitle("Account Suspended")
+                        .setMessage("You have been banned. You cannot perform this operation.")
+                        .setPositiveButton("OK", null)
+                        .show();
+                    return;
+                }
+
+                boolean isPremium = "PREMIUM".equalsIgnoreCase(userDoc.getString("subscriptionPlan"));
+                submitRequestToFirestore(user, bloodGroup, isPremium);
+            })
+            .addOnFailureListener(e -> {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Failed to verify account status.", Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    private void submitRequestToFirestore(FirebaseUser user, String bloodGroup, boolean isPremium) {
+        String patientName = etPatientName.getText().toString().trim();
+        String patientAge = etPatientAge.getText().toString().trim();
+        String gender = spinnerPatientGender.getSelectedItem().toString();
+        String unitsStr = etUnitsRequired.getText().toString().trim();
+        String urgency = spinnerUrgencyLevel.getSelectedItem().toString();
+        String reason = etReason.getText().toString().trim();
+        String hospitalDetails = etHospitalDetails.getText().toString().trim();
+        String area = etArea.getText().toString().trim();
+        String contactNumber = etContactNumber.getText().toString().trim();
+        String notes = etNotes.getText().toString().trim();
+        int unitsRequired = 0;
+        try { unitsRequired = Integer.parseInt(unitsStr); } catch (NumberFormatException ignored) {}
+
         String transactionId = UUID.randomUUID().toString();
         BloodTransactionModel model = new BloodTransactionModel();
         model.setTransactionId(transactionId);
@@ -243,6 +287,7 @@ public class NewRequestFragment extends Fragment {
         model.setCompletedAt(0);
         model.setLatitude(selectedLatitude);
         model.setLongitude(selectedLongitude);
+        model.setPremiumRequest(isPremium);
 
         FirebaseFirestore.getInstance().collection("transactions").document(transactionId).set(model)
             .addOnSuccessListener(aVoid -> {
@@ -250,7 +295,11 @@ public class NewRequestFragment extends Fragment {
                     .update("totalRequests", FieldValue.increment(1));
                 
                 if (getContext() != null) {
-                    Toast.makeText(getContext(), "Blood request submitted successfully!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Blood request submitted!", Toast.LENGTH_SHORT).show();
+                    if (isPremium) {
+                        android.content.Context appContext = getContext().getApplicationContext();
+                        broadcastPremiumNotification(appContext, transactionId, bloodGroup);
+                    }
                     resetForm();
                     if (getActivity() instanceof MainActivity) {
                         ((MainActivity) getActivity()).selectTab(0);
@@ -261,6 +310,53 @@ public class NewRequestFragment extends Fragment {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Failed to submit request: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            });
+    }
+
+    private void broadcastPremiumNotification(android.content.Context appContext, String transactionId, String bloodGroup) {
+        Log.d("PremiumBroadcast", "Starting broadcast for blood group: '" + bloodGroup + "', transactionId: " + transactionId);
+
+        String currentUserUid = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser() != null
+            ? com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser().getUid() : "";
+
+        FirebaseFirestore.getInstance().collection("users")
+            .whereEqualTo("bloodGroup", bloodGroup)
+            .whereEqualTo("availableToDonate", true)  
+            .get()
+            .addOnSuccessListener(queryDocumentSnapshots -> {
+                int total = queryDocumentSnapshots.size();
+                Log.d("PremiumBroadcast", "Found " + total + " users with blood group: " + bloodGroup);
+
+                int notified = 0;
+                for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                    String uid = doc.getId();
+                    String status = doc.getString("status");
+                    String token = doc.getString("token");
+                    String storedBloodGroup = doc.getString("bloodGroup");
+
+                    Log.d("PremiumBroadcast", "User: " + uid + ", status: " + status + ", bloodGroup: " + storedBloodGroup + ", hasToken: " + (token != null && !token.isEmpty()));
+
+                    if (uid.equals(currentUserUid)) {
+                        Log.d("PremiumBroadcast", "Skipping requester themselves: " + uid);
+                        continue;
+                    }
+
+                    if ("BLOCKED".equalsIgnoreCase(status)) {
+                        Log.d("PremiumBroadcast", "Skipping banned user: " + uid);
+                        continue;
+                    }
+                    if (token != null && !token.isEmpty()) {
+                        Log.d("PremiumBroadcast", "Sending notification to user: " + uid);
+                        NotificationSender.sendPremiumBroadcast(appContext, token, bloodGroup, transactionId);
+                        notified++;
+                    } else {
+                        Log.w("PremiumBroadcast", "User " + uid + " has no FCM token, skipping.");
+                    }
+                }
+                Log.d("PremiumBroadcast", "Broadcast complete. Notified " + notified + " users.");
+            })
+            .addOnFailureListener(e -> {
+                Log.e("PremiumBroadcast", "Firestore query failed: " + e.getMessage(), e);
             });
     }
 

@@ -63,6 +63,8 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
 
             if ("NEW_RESPONSE".equals(type) && transactionId != null) {
                 showResponseNotification(transactionId, senderName);
+            } else if ("PREMIUM_REQUEST".equals(type) && transactionId != null) {
+                showPremiumRequestNotification(transactionId, senderName);
             }
         }
 
@@ -103,6 +105,42 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setContentIntent(pendingIntent);
+
+        notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+    }
+
+    private void showPremiumRequestNotification(String transactionId, String bloodGroup) {
+        String channelId = "premium_requests";
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(channelId, "Premium Blood Requests", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("Urgent premium blood request notifications");
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // Opens MainActivity and navigates to the Requests Feed (tab 0)
+        Intent intent = new Intent(this, edu.ewubd.bloodmap.MainActivity.class);
+        intent.putExtra("openTab", 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent,
+                PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+
+        String title = "🩸 Urgent " + bloodGroup + " Blood Needed!";
+        String message = "A premium user urgently needs " + bloodGroup + " blood. Tap to respond now.";
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setColor(Color.RED)
                 .setContentIntent(pendingIntent);
 
         notificationManager.notify((int) System.currentTimeMillis(), builder.build());

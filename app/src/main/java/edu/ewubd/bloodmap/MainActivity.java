@@ -85,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (savedInstanceState == null) {
-            selectTab(0);
+            // Check if launched from a notification with an openTab extra
+            int openTab = getIntent().getIntExtra("openTab", 0);
+            selectTab(openTab);
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);

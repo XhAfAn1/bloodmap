@@ -3,7 +3,9 @@ package edu.ewubd.bloodmap.admin.userManagement;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,11 +18,18 @@ import edu.ewubd.bloodmap.R;
  
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
  
+    public interface OnUserActionListener {
+        void onBanUser(UserModel user);
+        void onUpgradeToPremium(UserModel user);
+    }
+
     private List<UserModel> userList;
+    private OnUserActionListener actionListener;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
  
-    public UserAdapter(List<UserModel> userList) {
+    public UserAdapter(List<UserModel> userList, OnUserActionListener listener) {
         this.userList = userList;
+        this.actionListener = listener;
     }
  
     @NonNull
@@ -35,9 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         UserModel user = userList.get(position);
         
         holder.tvUserName.setText(user.getName() != null && !user.getName().isEmpty() ? user.getName() : "Anonymous");
-
         holder.tvUserEmail.setText(user.getEmail());
-  
         holder.tvUserContact.setText("Phone: " + (user.getContactNumber() == null || user.getContactNumber().isEmpty() ? "Not set" : user.getContactNumber()));
 
         if (user.getProfileImageUrl() != null && !user.getProfileImageUrl().isEmpty()) {
@@ -83,19 +90,47 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         }
 
         holder.tvUserDonations.setText("Donations: " + user.getTotalDonations());
-
         holder.tvUserRequests.setText("Requests: " + user.getTotalRequests());
-
         holder.tvLastDonationDate.setText("Last: " + (user.getLastDonationDate() != null ? dateFormat.format(user.getLastDonationDate()) : "N/A"));
-
         holder.tvNextEligibleDate.setText("Next: " + (user.getNextEligibleDate() != null ? dateFormat.format(user.getNextEligibleDate()) : "TBD"));
- 
         holder.tvUserLocation.setText("Area: " + (user.getLocationArea() == null || user.getLocationArea().isEmpty() ? "Not set" : user.getLocationArea()));
 
         String plan = user.getSubscriptionPlan();
-        holder.tvSubscriptionPlan.setText("Plan: " + (plan == null || plan.isEmpty() ? "FREE" : plan));
+        String planLabel = (plan == null || plan.isEmpty()) ? "FREE" : plan;
+        holder.tvSubscriptionPlan.setText("Plan: " + planLabel);
+        if ("PREMIUM".equalsIgnoreCase(planLabel)) {
+            holder.tvSubscriptionPlan.setTextColor(0xFFFF8F00); // gold/amber for premium
+        } else {
+            holder.tvSubscriptionPlan.setTextColor(0xFF1976D2);
+        }
 
         holder.tvCreatedAt.setText("Joined: " + (user.getCreatedAt() != null ? dateFormat.format(user.getCreatedAt()) : "N/A"));
+
+        // 3-dot overflow menu
+        holder.ivMoreOptions.setOnClickListener(v -> {
+            PopupMenu popup = new PopupMenu(v.getContext(), v);
+            
+            String currentStatus = user.getStatus();
+            boolean isBanned = "BLOCKED".equalsIgnoreCase(currentStatus);
+            popup.getMenu().add(0, 1, 0, isBanned ? "Unban User" : "Ban User");
+
+            String currentPlan = user.getSubscriptionPlan();
+            boolean isPremium = "PREMIUM".equalsIgnoreCase(currentPlan);
+            popup.getMenu().add(0, 2, 1, isPremium ? "Remove Premium" : "Upgrade to Premium");
+
+            popup.setOnMenuItemClickListener(item -> {
+                if (actionListener == null) return false;
+                if (item.getItemId() == 1) {
+                    actionListener.onBanUser(user);
+                    return true;
+                } else if (item.getItemId() == 2) {
+                    actionListener.onUpgradeToPremium(user);
+                    return true;
+                }
+                return false;
+            });
+            popup.show();
+        });
     }
  
     @Override
@@ -105,12 +140,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
  
     static class UserViewHolder extends RecyclerView.ViewHolder {
         ImageView ivUserProfile;
+        ImageButton ivMoreOptions;
         TextView tvUserName, tvUserEmail, tvUserContact, tvUserLocation, tvUserBloodGroup, tvAdminBadge, tvUserStatus;
         TextView tvAvailabilityBadge, tvUserDonations, tvUserRequests, tvLastDonationDate, tvNextEligibleDate, tvSubscriptionPlan, tvCreatedAt;
  
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             ivUserProfile = itemView.findViewById(R.id.ivUserProfile);
+            ivMoreOptions = itemView.findViewById(R.id.ivMoreOptions);
             tvUserName = itemView.findViewById(R.id.tvUserName);
             tvUserEmail = itemView.findViewById(R.id.tvUserEmail);
             tvUserContact = itemView.findViewById(R.id.tvUserContact);
