@@ -10,363 +10,676 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F5F5F5">
+        android:background="#FAF8F8">
 
-        <LinearLayout
-            android:id="@+id/top_appbar"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentTop="true"
-            android:background="#D11A2A"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="16dp"
-            android:elevation="4dp">
-
-            <ImageView
-                android:id="@+id/menu_icon"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@android:drawable/ic_menu_sort_by_size"
-                app:tint="#FFFFFF" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_weight="1"
-                android:text="Admin Dashboard"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
+        <!-- Scrollable Content -->
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/top_appbar"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
+            android:clipToPadding="false"
+            android:paddingBottom="20dp"
+            android:scrollbars="none">
+            
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="System Overview"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="#333333"
-                android:layout_marginBottom="16dp"/>
+                android:orientation="vertical">
 
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:useDefaultMargins="true"
-                android:alignmentMode="alignMargins"
-                android:columnOrderPreserved="false">
+                <!-- Top App Bar -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="20dp"
+                    android:layout_marginTop="8dp">
 
-                <!-- Total Users Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
+                    <ImageView
+                        android:id="@+id/menu_icon"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/ic_menu_bold" 
+                        app:tint="#800000"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="2dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:text="Editorial Admin Dashboard"
+                        android:textColor="#800000"
+                        android:textSize="18sp"
+                        android:letterSpacing="0.06"
+                        android:textStyle="bold"
+                        android:lineSpacingExtra="-2dp"/>
+                </LinearLayout>
+
+                <!-- Header Area -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp">
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="16dp">
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ANALYTICAL PULSE"
+                        android:textColor="#800000"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:letterSpacing="0.05" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="System Overview"
+                        android:textColor="#1A1A1A"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+
+                <!-- Stats Grid -->
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:columnCount="2"
+                    android:layout_marginTop="16dp"
+                    android:paddingHorizontal="12dp">
+
+                    <!-- 1. Total Users -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#FFFFFF">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TOTAL USERS"
+                                android:textSize="9sp"
+                                android:textColor="#757575"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="4dp"/>
+                            <TextView
+                                android:id="@+id/tvUsersCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                android:textColor="#800000"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- 2. Available Donors -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#FFFFFF">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="AVAILABLE DONORS"
+                                android:textSize="9sp"
+                                android:textColor="#757575"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="4dp"/>
+                            <TextView
+                                android:id="@+id/tvAvailableDonorsCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                android:textColor="#2E7D32"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- 3. Active Requests -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#FFFFFF">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ACTIVE REQUESTS"
+                                android:textSize="9sp"
+                                android:textColor="#757575"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="4dp"/>
+                            <TextView
+                                android:id="@+id/tvActiveRequestsCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                android:textColor="#1565C0"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- 4. Completed Reqs -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#FFFFFF">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="COMPLETED REQS"
+                                android:textSize="9sp"
+                                android:textColor="#757575"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="4dp"/>
+                            <TextView
+                                android:id="@+id/tvCompletedRequestsCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="4"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                android:textColor="#424242"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- 5. Total Hospitals -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#FFFFFF">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TOTAL HOSPITALS"
+                                android:textSize="9sp"
+                                android:textColor="#757575"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="4dp"/>
+                            <TextView
+                                android:id="@+id/tvHospitalsCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                android:textColor="#800000"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <!-- 6. Blood Banks -->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#FFFFFF">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="90dp"
+                            android:orientation="vertical"
+                            android:gravity="center">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="BLOOD BANKS"
+                                android:textSize="9sp"
+                                android:textColor="#757575"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="4dp"/>
+                            <TextView
+                                android:id="@+id/tvBloodBanksCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="1"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                android:textColor="#800000"/>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                </GridLayout>
+
+                <!-- Map Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#D3E0E2">
+                    <!-- Faked map background color -->
+                    
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@android:drawable/ic_dialog_map"
+                        android:alpha="0.1"
+                        app:tint="#4A6572" />
+                        
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="24dp"
+                        android:gravity="center_vertical">
+                        
+                        <Space android:layout_weight="1" android:layout_width="match_parent" android:layout_height="0dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Regional Logistics Map"
+                            android:textColor="#3E0000"
+                            android:textSize="20sp"
+                            android:textStyle="bold"/>
+
+                        <TextView
+                            android:layout_width="180dp"
+                            android:layout_height="wrap_content"
+                            android:text="Real-time visualization of current blood supply routes."
+                            android:textColor="#5A5A5A"
+                            android:textSize="12sp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="16dp"/>
+
+                        <TextView
+                            android:id="@+id/btn_expand_map"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_add_button"
+                            android:text="Expand Map"
+                            android:textColor="#FFFFFF"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="10dp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Emergency Broadcast Card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="24dp"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#B71C1C">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
+                        android:padding="24dp">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Total Users"
-                            android:textSize="14sp"
-                            android:textColor="#555555"
-                            android:layout_marginBottom="4dp"/>
-                        <TextView
-                            android:id="@+id/tvUsersCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..."
-                            android:textSize="28sp"
+                            android:text="EMERGENCY BROADCAST"
+                            android:textColor="#FFCDD2"
+                            android:textSize="9sp"
                             android:textStyle="bold"
-                            android:textColor="#D11A2A"/>
+                            android:letterSpacing="0.05"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="12dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Critical O- Negative Shortage"
+                            android:textColor="#FFFFFF"
+                            android:textSize="22sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="12dp"
+                            android:lineSpacingExtra="2dp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Immediate outreach required for registered donors."
+                            android:textColor="#FFEBEE"
+                            android:textSize="12sp"
+                            android:layout_marginBottom="24dp"/>
+
+                        <TextView
+                            android:id="@+id/btn_mass_alert"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_button_white"
+                            android:text="SEND MASS ALERT"
+                            android:textColor="#B71C1C"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:paddingVertical="12dp"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
-                <!-- Available Donors Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Available Donors"
-                            android:textSize="14sp"
-                            android:textColor="#555555"
-                            android:layout_marginBottom="4dp"/>
-                        <TextView
-                            android:id="@+id/tvAvailableDonorsCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..."
-                            android:textSize="28sp"
-                            android:textStyle="bold"
-                            android:textColor="#2E7D32"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Active Requests Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Active Requests"
-                            android:textSize="14sp"
-                            android:textColor="#555555"
-                            android:layout_marginBottom="4dp"/>
-                        <TextView
-                            android:id="@+id/tvActiveRequestsCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..."
-                            android:textSize="28sp"
-                            android:textStyle="bold"
-                            android:textColor="#1565C0"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Completed Requests Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Completed Reqs"
-                            android:textSize="14sp"
-                            android:textColor="#555555"
-                            android:layout_marginBottom="4dp"/>
-                        <TextView
-                            android:id="@+id/tvCompletedRequestsCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..."
-                            android:textSize="28sp"
-                            android:textStyle="bold"
-                            android:textColor="#424242"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Total Hospitals Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Total Hospitals"
-                            android:textSize="14sp"
-                            android:textColor="#555555"
-                            android:layout_marginBottom="4dp"/>
-                        <TextView
-                            android:id="@+id/tvHospitalsCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..."
-                            android:textSize="28sp"
-                            android:textStyle="bold"
-                            android:textColor="#D11A2A"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Total Blood Banks Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:gravity="center">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Blood Banks"
-                            android:textSize="14sp"
-                            android:textColor="#555555"
-                            android:layout_marginBottom="4dp"/>
-                        <TextView
-                            android:id="@+id/tvBloodBanksCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="..."
-                            android:textSize="28sp"
-                            android:textStyle="bold"
-                            android:textColor="#D11A2A"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- System Locations Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="8dp"
-                    app:cardElevation="2dp">
-
-                </androidx.cardview.widget.CardView>
-
-            </GridLayout>
-
-        </LinearLayout>
-
+            </LinearLayout>
+        </ScrollView>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#FFFFFF"
+        android:background="#FAFAFA"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical">
 
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="#D11A2A"
-            android:gravity="bottom"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:paddingTop="36dp"
+            android:paddingBottom="24dp"
+            android:gravity="center_vertical">
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_avatar"
+                android:padding="2dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="12dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Admin Console"
+                    android:textColor="#800000"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="EDITORIAL SYSTEM"
+                    android:textColor="#757575"
+                    android:textSize="8sp"
+                    android:letterSpacing="0.05" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp">
+
+                <!-- 1. Show All Users (Active State) -->
+                <LinearLayout
+                    android:id="@+id/menu_show_users"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_bottom_nav_active"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:clickable="true"
+                    android:focusable="true">
+                    <!-- Icon -->
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_admin_users_bold"
+                        app:tint="#B71C1C" />
+                    <!-- Text -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Show All Users"
+                        android:textColor="#B71C1C"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- 2. Show All Blood Banks -->
+                <LinearLayout
+                    android:id="@+id/menu_show_blood_banks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_admin_hospital_bold"
+                        app:tint="#1A1A1A" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Show All Blood Banks"
+                        android:textColor="#1A1A1A"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- 3. Show All Hospitals -->
+                <LinearLayout
+                    android:id="@+id/menu_show_hospitals"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_admin_hospital_bold"
+                        app:tint="#1A1A1A" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Show All Hospitals"
+                        android:textColor="#1A1A1A"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- 4. Manage App Locations -->
+                <LinearLayout
+                    android:id="@+id/menu_manage_locations"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_admin_location_bold"
+                        app:tint="#1A1A1A" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Manage App Locations"
+                        android:textColor="#1A1A1A"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- 5. Active Requests -->
+                <LinearLayout
+                    android:id="@+id/menu_active_requests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_admin_star_bold"
+                        app:tint="#1A1A1A" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Active Requests"
+                        android:textColor="#1A1A1A"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- 6. Previous Requests -->
+                <LinearLayout
+                    android:id="@+id/menu_previous_requests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="16dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?android:attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_admin_history_bold"
+                        app:tint="#1A1A1A" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:text="Previous Requests"
+                        android:textColor="#1A1A1A"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- Footer -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="24dp">
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E0E0E0"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/menu_logout_admin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_admin_logout_bold"
+                    app:tint="#1A1A1A" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="Logout"
+                    android:textColor="#1A1A1A"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Admin Center"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:text="V 1.0.4"
+                android:textColor="#BDBDBD"
+                android:textSize="8sp"
+                android:layout_marginTop="16dp"/>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/menu_show_users"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Show All Users"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_show_blood_banks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Show All Blood Banks"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_show_hospitals"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Show All Hospitals"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_manage_locations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Manage App Locations"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_active_requests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Active Requests"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_previous_requests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Previous Requests"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_logout_admin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Logout"
-            android:textColor="#D11A2A"
-            android:textStyle="bold"
-            android:textSize="16sp" />
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

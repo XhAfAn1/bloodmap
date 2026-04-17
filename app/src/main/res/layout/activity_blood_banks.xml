@@ -3,44 +3,118 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="#FAF8F8"
     android:fitsSystemWindows="true">
 
+    <!-- Sticky Top Section -->
     <LinearLayout
-        android:id="@+id/top_bar"
+        android:id="@+id/header_container"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentTop="true"
-        android:background="#D11A2A"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:elevation="4dp">
-        
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#FFFFFF" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Top Navigation Mock -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+            
+            <ImageView
+                android:id="@+id/back_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_arrow_back"
+                android:padding="4dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                app:tint="#800000"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Blood Banks"
+                android:textColor="#800000"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_marker_plus"
+                android:padding="4dp"
+                app:tint="#800000" />
+        </RelativeLayout>
+
+        <!-- Typography Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Nearby Blood Banks"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NEAREST FACILITIES"
+                android:textColor="#800000"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+
+            <TextView
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lineSpacingExtra="2dp"
+                android:text="Vital Resources Within Reach"
+                android:textColor="#1A1A1A"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Search Bar Mock -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_search_bar"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="20dp"
+            android:elevation="0dp">
+            
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_search"
+                app:tint="#BDBDBD" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="Search by area or blood type..."
+                android:textColor="#BDBDBD"
+                android:textSize="14sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
+    <!-- Main Content -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewBloodBanks"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/top_bar"
+        android:layout_below="@id/header_container"
         android:clipToPadding="false"
-        android:paddingTop="8dp" />
+        android:paddingTop="32dp"
+        android:paddingBottom="20dp" />
 
     <ProgressBar
         android:id="@+id/progressBarBanks"
@@ -48,7 +122,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
- 
+
+    <!-- FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddBloodBank"
         android:layout_width="wrap_content"
@@ -58,6 +133,8 @@
         android:layout_margin="24dp"
         android:src="@android:drawable/ic_input_add"
         app:tint="#FFFFFF"
-        app:backgroundTint="#D11A2A"
+        app:backgroundTint="#800000"
+        app:elevation="4dp"
         android:visibility="gone" />
+
 </RelativeLayout>

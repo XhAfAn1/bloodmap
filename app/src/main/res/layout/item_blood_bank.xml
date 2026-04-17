@@ -4,130 +4,215 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="6dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="3dp"
-    app:contentPadding="16dp">
+    android:layout_marginBottom="16dp"
+    android:layout_marginHorizontal="24dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@android:color/transparent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_card_premium"
+        android:padding="20dp">
 
+        <!-- Top Row: Badge and Action Buttons -->
+        <RelativeLayout
+            android:id="@+id/card_top_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            
+            <TextView
+                android:id="@+id/tv24hBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge_red"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="6dp"
+                android:text="OPEN 24/7"
+                android:textColor="#FFFFFF"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv24hBadge"
+                android:layout_marginStart="12dp"
+                android:layout_centerVertical="true"
+                android:textColor="#757575"
+                android:textSize="11sp"
+                android:visibility="visible" />
+
+            <!-- Call Button -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnCallBank"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_alignParentEnd="true"
+                app:cardCornerRadius="22dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_phone_bold"
+                    app:tint="#1A1A1A" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Edit Button (Positioned to the left of Call button to prevent overlap) -->
+            <ImageButton
+                android:id="@+id/btnEditBank"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_toStartOf="@id/btnCallBank"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_circle_white"
+                android:src="@drawable/ic_edit_bold"
+                android:padding="12dp"
+                android:elevation="4dp"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <!-- Body: Name and Address -->
         <LinearLayout
+            android:id="@+id/card_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@id/btnEditBank"
+            android:layout_below="@id/card_top_row"
+            android:layout_marginTop="12dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvBankName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#D11A2A"
-                android:textSize="20sp"
+                android:text="Dhaka Central Blood Bank"
+                android:textColor="#1A1A1A"
+                android:textSize="26sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="4dp"/>
-
-            <TextView
-                android:id="@+id/tvContact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:textColor="#333333"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textColor="#777777"
-                android:textSize="14sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#EEEEEE"
-                android:layout_marginBottom="8dp"/>
-
-            <TextView
-                android:id="@+id/tvStockSummary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:textColor="#555555"
-                android:textSize="13sp"
-                android:text="Stock levels loading..." />
-
-            <TextView
-                android:id="@+id/tvBankCoordinates"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textColor="#888888"
-                android:textSize="12sp" />
+                android:lineSpacingExtra="-2dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp">
-
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_admin_location_bold"
+                    app:tint="#757575" />
                 <TextView
-                    android:id="@+id/tv24hBadge"
+                    android:id="@+id/tvAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="#E3F2FD"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="4dp"
-                    android:text="Open 24/7"
-                    android:textColor="#1976D2"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="0dp"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnCallBank"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CALL"
-                    app:icon="@android:drawable/ic_menu_call"
-                    android:textColor="#D11A2A"
-                    app:iconTint="#D11A2A" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnNavigateBank"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NAVIGATE"
-                    app:icon="@android:drawable/ic_menu_directions"
-                    android:textColor="#1976D2"
-                    app:iconTint="#1976D2"
-                    android:layout_marginStart="4dp" />
+                    android:layout_marginStart="6dp"
+                    android:text="Dhanmondi 27, Dhaka"
+                    android:textColor="#757575"
+                    android:textSize="14sp" />
             </LinearLayout>
-
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnEditBank"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_edit"
-            android:tint="#888888"
-            android:visibility="gone" />
+        <!-- Dynamic Stock Area -->
+        <LinearLayout
+            android:id="@+id/stock_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_body"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+            
+            <TextView
+                android:id="@+id/tvStockSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F8F8F8"
+                android:padding="12dp"
+                android:text="A+: 12, B+: 08, O-: 02, AB+: 15"
+                android:textColor="#1A1A1A"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.02"
+                android:lineSpacingExtra="4dp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/card_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/stock_container"
+            android:layout_marginTop="20dp"
+            android:background="#F0F0F0" />
+
+        <!-- Footer Row: Coordinates and Direction -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_divider"
+            android:layout_marginTop="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LOCATION INFO"
+                    android:textColor="#BDBDBD"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+                <TextView
+                    android:id="@+id/tvBankCoordinates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23.7509° N, 90.3756° E (2.4 km away)"
+                    android:textColor="#1A1A1A"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="2dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/btnNavigateBank"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/bg_button_direction"
+                android:gravity="center"
+                android:paddingHorizontal="20dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground">
+                
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Direction"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_arrow_direction" />
+            </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

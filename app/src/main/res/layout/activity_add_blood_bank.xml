@@ -1,151 +1,306 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F5F5F5"
+    android:background="#FFFFFF"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <!-- Top Bar -->
+    <RelativeLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="#D11A2A"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:elevation="4dp">
-        
+        android:paddingHorizontal="16dp">
+
         <ImageView
             android:id="@+id/back_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#FFFFFF" />
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back"
+            android:padding="4dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            app:tint="#1A1A1A" />
 
         <TextView
-            android:id="@+id/tvBankFormTitle"
+            android:id="@+id/tvBankFormTitle_Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Add Blood Bank"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:layout_centerInParent="true"
+            android:text="ST. JUDE CENTRAL"
+            android:textColor="#800000"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:clipToPadding="false"
+        android:paddingBottom="40dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="12dp">
 
-            <EditText
-                android:id="@+id/etBankName"
-                android:layout_width="match_parent"
+            <!-- Header -->
+            <TextView
+                android:id="@+id/tvBankFormTitle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Blood Bank Name"
-                android:padding="14dp"
-                android:background="#FFFFFF"
-                android:elevation="2dp"
-                android:layout_marginBottom="16dp"/>
-
-            <EditText
-                android:id="@+id/etBankPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contact Number"
-                android:inputType="phone"
-                android:padding="14dp"
-                android:background="#FFFFFF"
-                android:elevation="2dp"
-                android:layout_marginBottom="16dp"/>
-
-            <EditText
-                android:id="@+id/etBankAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Full Address"
-                android:padding="14dp"
-                android:background="#FFFFFF"
-                android:elevation="2dp"
-                android:layout_marginBottom="16dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <EditText
-                    android:id="@+id/etLat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Lat (e.g. 23.7)"
-                    android:inputType="numberDecimal|numberSigned"
-                    android:padding="14dp"
-                    android:background="#FFFFFF"
-                    android:elevation="2dp"
-                    android:layout_marginEnd="8dp"/>
-
-                <EditText
-                    android:id="@+id/etLon"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Lon (e.g. 90.4)"
-                    android:inputType="numberDecimal|numberSigned"
-                    android:padding="14dp"
-                    android:background="#FFFFFF"
-                    android:elevation="2dp"/>
-            </LinearLayout>
+                android:text="Edit Blood Bank"
+                android:textColor="#1A1A1A"
+                android:textSize="32sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Current Stock (Amount)"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginTop="4dp"
+                android:text="Update facility details and inventory levels."
+                android:textColor="#757575"
+                android:textSize="14sp" />
 
+            <!-- Form Fields -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="32dp">
+
+                <!-- Name -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FACILITY NAME"
+                    android:textColor="#800000"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+                <EditText
+                    android:id="@+id/etBankName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_input_minimal"
+                    android:hint="Facility Full Name"
+                    android:paddingVertical="12dp"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp" />
+
+                <!-- Contact -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="CONTACT"
+                    android:textColor="#800000"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+                <EditText
+                    android:id="@+id/etBankPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_input_minimal"
+                    android:hint="+1 (XXX) XXX-XXXX"
+                    android:inputType="phone"
+                    android:paddingVertical="12dp"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp" />
+
+                <!-- Location -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="LOCATION"
+                    android:textColor="#800000"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+                <EditText
+                    android:id="@+id/etBankAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_input_minimal"
+                    android:hint="City or Full Address"
+                    android:paddingVertical="12dp"
+                    android:textColor="#1A1A1A"
+                    android:textSize="16sp" />
+
+                <!-- Geographic Details (Minimalist row for functionality) -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/etLat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Latitude"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:textColor="#BDBDBD"
+                        android:textSize="11sp" />
+                    <EditText
+                        android:id="@+id/etLon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="Longitude"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:textColor="#BDBDBD"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Inventory Units Header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:orientation="horizontal"
+                android:gravity="bottom">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Inventory Units"
+                    android:textColor="#1A1A1A"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="(ML)"
+                    android:textColor="#757575"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="2dp" />
+            </LinearLayout>
+
+            <!-- Inventory Grid -->
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:columnCount="2"
-                android:rowCount="4"
-                android:layout_marginBottom="16dp">
+                android:useDefaultMargins="false">
 
-                <EditText android:id="@+id/etAPos" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="A+" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
-                <EditText android:id="@+id/etANeg" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="A-" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
-                <EditText android:id="@+id/etBPos" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="B+" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
-                <EditText android:id="@+id/etBNeg" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="B-" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
-                <EditText android:id="@+id/etABPos" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="AB+" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
-                <EditText android:id="@+id/etABNeg" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="AB-" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
-                <EditText android:id="@+id/etOPos" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="O+" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
-                <EditText android:id="@+id/etONeg" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:hint="O-" android:inputType="number" android:padding="12dp" android:background="#FFFFFF" android:layout_margin="4dp"/>
+                <!-- A+ -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="A+" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etAPos" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- A- -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="A-" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etANeg" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- B+ -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="B+" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etBPos" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- B- -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="B-" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etBNeg" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- O+ -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="O+" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etOPos" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- O- -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="O-" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etONeg" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- AB+ -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AB+" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etABPos" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- AB- -->
+                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:layout_margin="8dp" android:background="@drawable/bg_inventory_card" android:orientation="vertical" android:padding="16dp" android:gravity="center">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AB-" android:textColor="#800000" android:textSize="16sp" android:textStyle="bold" />
+                    <EditText android:id="@+id/etABNeg" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:background="@drawable/bg_field_input" android:gravity="center" android:inputType="number" android:padding="8dp" android:text="0" android:textColor="#1A1A1A" android:textSize="14sp" android:textStyle="bold" />
+                </LinearLayout>
+
             </GridLayout>
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
-                android:id="@+id/sw24Hours"
+            <!-- 24H Toggle -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Open 24 Hours?"
-                android:padding="14dp"
-                android:layout_marginBottom="24dp"/>
+                android:layout_marginTop="32dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="24-Hour Operations"
+                    android:textColor="#1A1A1A"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/sw24Hours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    app:useMaterialThemeColors="false"
+                    app:thumbTint="#800000"
+                    app:trackTint="#E0E0E0" />
+            </RelativeLayout>
 
+            <!-- Action Buttons -->
             <Button
                 android:id="@+id/btnSaveBank"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Save Data"
-                android:backgroundTint="#D11A2A"
+                android:layout_height="56dp"
+                android:layout_marginTop="40dp"
+                android:backgroundTint="#800000"
+                android:text="Update Information"
+                android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:padding="14dp"/>
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:cornerRadius="12dp" />
+
+            <TextView
+                android:id="@+id/btnDiscardChanges"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_gravity="center"
+                android:text="DISCARD CHANGES"
+                android:textColor="#1A1A1A"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+</RelativeLayout>
