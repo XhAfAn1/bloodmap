@@ -73,7 +73,7 @@ public class BloodBanksActivity extends AppCompatActivity {
                         sortBanksByDistance();
                     }
                 });
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

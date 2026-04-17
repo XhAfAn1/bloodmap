@@ -19,7 +19,7 @@ public class UserModel {
     private String gender;
     private Date dateOfBirth;
     private String address;
-    private boolean isAvailableToDonate;
+    private boolean availableToDonate;
     private Date lastDonationDate;
     private Date nextEligibleDate;
     private String status; // ACTIVE, BLOCKED
@@ -47,7 +47,7 @@ public class UserModel {
         this.gender = "";
         this.dateOfBirth = null;
         this.address = "";
-        this.isAvailableToDonate = true;
+        this.availableToDonate = true;
         this.lastDonationDate = null;
         this.nextEligibleDate = null;
         this.status = "ACTIVE";
@@ -185,11 +185,11 @@ public class UserModel {
     }
 
     public boolean isAvailableToDonate() {
-        return isAvailableToDonate;
+        return availableToDonate;
     }
 
     public void setAvailableToDonate(boolean availableToDonate) {
-        this.isAvailableToDonate = availableToDonate;
+        this.availableToDonate = availableToDonate;
     }
 
     public Date getLastDonationDate() {

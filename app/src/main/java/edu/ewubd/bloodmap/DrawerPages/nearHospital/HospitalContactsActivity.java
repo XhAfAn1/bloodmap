@@ -73,7 +73,7 @@ public class HospitalContactsActivity extends AppCompatActivity {
                         sortHospitalsByDistance();
                     }
                 });
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

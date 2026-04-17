@@ -84,7 +84,7 @@ public class AdminActivity extends AppCompatActivity {
             }
         });
  
-        db.collection("users").whereEqualTo("isAvailableToDonate", true).addSnapshotListener(this, (snapshots, e) -> {
+        db.collection("users").whereEqualTo("availableToDonate", true).addSnapshotListener(this, (snapshots, e) -> {
             if (e != null) {
                 tvAvailableDonorsCount.setText("Error");
                 return;
