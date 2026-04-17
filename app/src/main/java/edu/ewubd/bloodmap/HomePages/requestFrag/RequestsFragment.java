@@ -23,6 +23,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import android.content.Intent;
 import edu.ewubd.bloodmap.ClassModels.BloodTransactionModel;
+import edu.ewubd.bloodmap.Notifications.NotificationSender;
 import edu.ewubd.bloodmap.ProfilePage.ProfileActivity;
 import edu.ewubd.bloodmap.R;
 
@@ -142,11 +143,47 @@ public class RequestsFragment extends Fragment implements RequestAdapter.OnReque
                     }
                     model.getResponderUids().add(currentUid);
                     adapter.notifyItemChanged(position);
+                    
+                    // Trigger notification to requester
+                    triggerNotificationToRequester(model, currentUid);
                 }
             })
             .addOnFailureListener(e -> {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Failed to send response.", Toast.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    private void triggerNotificationToRequester(BloodTransactionModel model, String responderUid) {
+        String requesterUid = model.getRequesterUid();
+        
+        // 1. Get requester's token
+        FirebaseFirestore.getInstance().collection("users").document(requesterUid).get()
+            .addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    String requesterToken = documentSnapshot.getString("token");
+                    if (requesterToken != null && !requesterToken.isEmpty()) {
+                        
+                        // 2. Get responder's name for the notification body
+                        FirebaseFirestore.getInstance().collection("users").document(responderUid).get()
+                            .addOnSuccessListener(responderDoc -> {
+                                String responderName = responderDoc.getString("name");
+                                if (responderName == null) responderName = "A donor";
+                                
+                                String title = "New Blood Response!";
+                                String body = responderName + " has responded to your request for " + model.getBloodGroup();
+                                
+                                NotificationSender.sendNotification(
+                                    getContext(),
+                                    requesterToken, 
+                                    title, 
+                                    body, 
+                                    model.getTransactionId(),
+                                    responderName
+                                );
+                            });
+                    }
                 }
             });
     }

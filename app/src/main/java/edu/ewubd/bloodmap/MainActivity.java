@@ -20,6 +20,7 @@ import com.google.android.gms.location.Priority;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -88,6 +89,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        
+        requestNotificationPermission();
+    }
+
+    private void requestNotificationPermission() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1002);
+            }
+        }
     }
 
     @Override
@@ -105,6 +116,19 @@ public class MainActivity extends AppCompatActivity {
         updateUserLocation(uid);
         checkAndRestoreDonorEligibility(uid);
         expireStaleRequests(uid);
+        updateFcmToken(uid);
+    }
+
+    private void updateFcmToken(String uid) {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnSuccessListener(token -> {
+                    if (token != null) {
+                        Map<String, Object> tokenUpdate = new HashMap<>();
+                        tokenUpdate.put("token", token);
+                        FirebaseFirestore.getInstance().collection("users").document(uid)
+                                .update(tokenUpdate);
+                    }
+                });
     }
 
     // location update
@@ -116,16 +140,20 @@ public class MainActivity extends AppCompatActivity {
                     1001);
             return;
         }
-        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
-                .addOnSuccessListener(location -> {
-                    if (location != null) {
-                        Map<String, Object> locationUpdate = new HashMap<>();
-                        locationUpdate.put("latitude", location.getLatitude());
-                        locationUpdate.put("longitude", location.getLongitude());
-                        FirebaseFirestore.getInstance().collection("users").document(uid)
-                                .update(locationUpdate);
-                    }
-                });
+        try {
+            fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+                    .addOnSuccessListener(location -> {
+                        if (location != null) {
+                            Map<String, Object> locationUpdate = new HashMap<>();
+                            locationUpdate.put("latitude", location.getLatitude());
+                            locationUpdate.put("longitude", location.getLongitude());
+                            FirebaseFirestore.getInstance().collection("users").document(uid)
+                                    .update(locationUpdate);
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // eligibility check
