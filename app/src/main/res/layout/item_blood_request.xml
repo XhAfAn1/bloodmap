@@ -4,130 +4,185 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
     android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="6dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
-    app:contentPadding="16dp">
+    android:layout_marginBottom="14dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <LinearLayout
+        <!-- Top Row: Blood Group Title + Premium Badge + Urgency -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="10dp">
+
             <TextView
                 android:id="@+id/tvTitle"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:textColor="#D11A2A"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvPremiumBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:layout_marginEnd="4dp"
-                android:background="#FFD700"
-                android:text="⭐ PREMIUM"
-                android:textColor="#7B4F00"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:textColor="#800000"
+                android:textSize="22sp"
                 android:textStyle="bold"
-                android:textSize="11sp"
-                android:visibility="gone" />
+                android:layout_toStartOf="@+id/tvUrgency"
+                android:layout_marginEnd="8dp" />
 
-            <TextView
-                android:id="@+id/tvUrgency"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:background="#FFCDD2"
-                android:textColor="#C62828"
-                android:textStyle="bold"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvPremiumBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:layout_marginEnd="6dp"
+                    android:background="#FFF8E1"
+                    android:text="⭐ PREMIUM"
+                    android:textColor="#F57F17"
+                    android:textStyle="bold"
+                    android:textSize="9sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvUrgency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:background="@drawable/bg_badge_red"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="9sp"
+                    android:letterSpacing="0.04" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Patient Details -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PATIENT"
+            android:textColor="#BDBDBD"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:layout_marginBottom="4dp" />
 
         <TextView
             android:id="@+id/tvPatientDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#444444"
-            android:textSize="14sp" />
+            android:textColor="#1A1A1A"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
 
+        <!-- Reason -->
         <TextView
             android:id="@+id/tvReason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="#666666"
-            android:textStyle="italic"
-            android:textSize="14sp" />
+            android:textColor="#757575"
+            android:textSize="13sp"
+            android:layout_marginBottom="4dp" />
 
+        <!-- Notes -->
         <TextView
             android:id="@+id/tvNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="#555555"
-            android:textSize="14sp" />
+            android:textColor="#9E9E9E"
+            android:textSize="13sp"
+            android:layout_marginBottom="12dp" />
 
-        <TextView
-            android:id="@+id/tvHospital"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="#555555"
-            android:textSize="14sp" />
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="12dp" />
 
-        <TextView
-            android:id="@+id/tvTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#777777"
-            android:textStyle="bold"
-            android:textSize="12sp" />
-            
-        <!-- Action Footer -->
+        <!-- Hospital Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="12dp">
-            
+            android:layout_marginBottom="6dp">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_admin_location_bold"
+                app:tint="#800000" />
+            <TextView
+                android:id="@+id/tvHospital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="#555555"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- Time -->
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#BDBDBD"
+            android:textSize="11sp"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Footer: Status + Respond Button -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/tvStatusMessage"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/btnRespond"
+                android:layout_marginEnd="8dp"
                 android:textColor="#2E7D32"
                 android:textStyle="bold"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
             <Button
                 android:id="@+id/btnRespond"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:backgroundTint="#D11A2A"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:backgroundTint="#800000"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold"
-                android:paddingHorizontal="16dp"
-                android:text="RESPOND" />
-                
-        </LinearLayout>
-            
+                android:textAllCaps="false"
+                android:paddingHorizontal="20dp"
+                android:letterSpacing="0.04"
+                android:text="Respond"
+                app:cornerRadius="8dp" />
+        </RelativeLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -3,26 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="24dp"
-    android:paddingBottom="8dp"
-    android:paddingHorizontal="16dp"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="6dp"
     android:gravity="center_vertical">
-
-    <View
-        android:layout_width="4dp"
-        android:layout_height="16dp"
-        android:background="#D11A2A"
-        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/tvDivisionName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DHAKA DIVISION"
-        android:textColor="#666666"
-        android:textSize="13sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.1"
+        android:text="DHAKA (3 DONORS)"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.10"
         android:textAllCaps="true" />
 
 </LinearLayout>
