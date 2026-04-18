@@ -176,8 +176,9 @@
 
     </RelativeLayout>
 
+    <!-- ── Side Drawer ── -->
     <LinearLayout
-        android:layout_width="280dp"
+        android:layout_width="288dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#FFFFFF"
@@ -185,136 +186,338 @@
         android:focusable="true"
         android:orientation="vertical">
 
+        <!-- Red Header — brand only, no profile -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="#D11A2A"
-            android:gravity="bottom"
+            android:layout_height="130dp"
+            android:background="#800000"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:gravity="bottom"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="4dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_blood_drop"
+                    app:tint="#FFFFFF"
+                    android:layout_marginEnd="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="bloodmap"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-medium" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="bloodmap"
-                android:textColor="#FFFFFF"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Save lives, donate blood"
+                android:text="SAVE LIVES, DONATE BLOOD"
                 android:textColor="#FFCDD2"
-                android:textSize="14sp" />
+                android:textSize="10sp"
+                android:letterSpacing="0.08"
+                android:fontFamily="sans-serif-medium" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/menu_open_requests"
+        <!-- ── Menu Items ── -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="My Requests"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            android:overScrollMode="never">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp">
+
+                <!-- My Requests -->
+                <LinearLayout
+                    android:id="@+id/menu_open_requests"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_nav_requests"
+                        app:tint="#555555"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MY REQUESTS"
+                        android:textColor="#333333"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06" />
+                </LinearLayout>
+
+                <!-- My Responses -->
+                <LinearLayout
+                    android:id="@+id/menu_open_responses"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_hand_heart"
+                        app:tint="#555555"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MY RESPONSES"
+                        android:textColor="#333333"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06" />
+                </LinearLayout>
+
+                <!-- Donation History -->
+                <LinearLayout
+                    android:id="@+id/menu_donation_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_admin_history_bold"
+                        app:tint="#555555"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DONATION HISTORY"
+                        android:textColor="#333333"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06" />
+                </LinearLayout>
+
+                <!-- Received History -->
+                <LinearLayout
+                    android:id="@+id/menu_receive_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_calendar"
+                        app:tint="#555555"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RECEIVED HISTORY"
+                        android:textColor="#333333"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06" />
+                </LinearLayout>
+
+                <!-- Thin divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F0F0"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <!-- Near Hospitals -->
+                <LinearLayout
+                    android:id="@+id/menu_hospital_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginBottom="4dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_admin_hospital_bold"
+                        app:tint="#555555"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NEAR HOSPITALS"
+                        android:textColor="#333333"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06" />
+                </LinearLayout>
+
+                <!-- Near Blood Banks -->
+                <LinearLayout
+                    android:id="@+id/menu_blood_bank_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_blood_drop"
+                        app:tint="#555555"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NEAR BLOOD BANKS"
+                        android:textColor="#333333"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06" />
+                </LinearLayout>
+
+                <!-- Thin divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F0F0"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp" />
+
+                <!-- Help Chatbot -->
+                <LinearLayout
+                    android:id="@+id/menu_chatbot"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:src="@drawable/ic_megaphone"
+                        app:tint="#555555"
+                        android:layout_marginEnd="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HELP CHATBOT"
+                        android:textColor="#333333"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.06" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- ── Logout at bottom ── -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#EEEEEE" />
+            android:background="#F0F0F0" />
 
-        <TextView
-            android:id="@+id/menu_open_responses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="My Responses"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_donation_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Donation History"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_receive_history"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Recieved History"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_hospital_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Near Hospitals"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_blood_bank_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Near Blood Banks"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <TextView
-            android:id="@+id/menu_chatbot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Help Chatbot"
-            android:textColor="#333333"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#EEEEEE" />
-
-        <TextView
+        <LinearLayout
             android:id="@+id/menu_logout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="Logout"
-            android:textColor="#333333"
-            android:textSize="16sp" />
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="28dp"
+            android:paddingEnd="28dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_admin_logout_bold"
+                app:tint="#C0182A"
+                android:layout_marginEnd="14dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LOGOUT"
+                android:textColor="#C0182A"
+                android:textSize="12sp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.06"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.drawerlayout.widget.DrawerLayout>

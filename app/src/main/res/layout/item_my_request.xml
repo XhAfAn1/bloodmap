@@ -4,105 +4,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="6dp"
-    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="12dp"
     app:cardElevation="2dp"
-    app:contentPadding="16dp">
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- ── Header row: Blood group + Urgency badge ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="10dp">
+
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textColor="#D11A2A"
-                android:textSize="18sp"
+                android:textColor="#800000"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-medium"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvUrgency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="8dp"
+                android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
-                android:background="#FFCDD2"
-                android:textColor="#C62828"
+                android:background="@drawable/bg_badge_red"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-medium"
                 android:textStyle="bold"
-                android:textSize="12sp" />
+                android:textSize="11sp" />
         </LinearLayout>
 
+        <!-- Thin divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0"
+            android:layout_marginBottom="10dp" />
+
+        <!-- ── Patient Details ── -->
         <TextView
             android:id="@+id/tvPatientDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#444444"
-            android:textSize="14sp" />
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:layout_marginBottom="4dp" />
 
+        <!-- ── Reason ── -->
         <TextView
             android:id="@+id/tvReason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="#666666"
-            android:textStyle="italic"
-            android:textSize="14sp" />
+            android:textColor="#777777"
+            android:textSize="13sp"
+            android:layout_marginBottom="4dp" />
 
+        <!-- ── Hospital ── -->
         <TextView
             android:id="@+id/tvHospital"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
             android:textColor="#555555"
-            android:textSize="14sp" />
+            android:textSize="13sp"
+            android:layout_marginBottom="8dp" />
 
+        <!-- ── Time ── -->
         <TextView
             android:id="@+id/tvTime"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#777777"
-            android:textStyle="bold"
-            android:textSize="12sp" />
+            android:textColor="#AAAAAA"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="12dp" />
 
-        <!-- Status & Manage Action -->
+        <!-- ── Footer: Responses count + Manage button ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="12dp">
-            
+            android:gravity="center_vertical">
+
             <TextView
                 android:id="@+id/tvResponsesCount"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:textColor="#1976D2"
+                android:textColor="#800000"
+                android:fontFamily="sans-serif-medium"
                 android:textStyle="bold"
-                android:textSize="14sp" />
+                android:textSize="13sp" />
 
             <Button
                 android:id="@+id/btnManage"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:backgroundTint="#333333"
+                android:backgroundTint="#800000"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif-medium"
                 android:textStyle="bold"
-                android:paddingHorizontal="16dp"
+                android:letterSpacing="0.05"
+                android:paddingHorizontal="18dp"
+                android:stateListAnimator="@null"
                 android:text="MANAGE" />
         </LinearLayout>
     </LinearLayout>

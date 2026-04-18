@@ -1,96 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="4dp"
-    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="2dp"
-    app:contentPadding="16dp">
+    app:cardBackgroundColor="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <LinearLayout
+        <!-- ── Header: Avatar + Info + Blood Group ── -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="6dp">
+            android:layout_marginBottom="12dp">
 
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <FrameLayout
+                android:id="@+id/avatar_container"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_donor_avatar_circle" />
+                <TextView
+                    android:id="@+id/tvAvatarLetter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="A"
+                    android:textColor="#800000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_toEndOf="@id/avatar_container"
+                android:layout_marginStart="16dp"
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="abrar"
+                    android:textColor="#1A1A1A"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvStats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 Total Donations"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvBloodGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp"
-                android:background="#E3F2FD"
-                android:textColor="#1976D2"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_blood_group_pill_light"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="6dp"
+                android:text="O+"
+                android:textColor="#800000"
                 android:textStyle="bold"
                 android:textSize="14sp" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvContact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="#00796B"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-            
-        <TextView
-            android:id="@+id/tvStats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#777777"
-            android:textSize="12sp" />
-
+        <!-- ── Contact Row ── -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp"
+            android:paddingStart="4dp">
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_phone"
+                app:tint="#555555"
+                android:layout_marginEnd="12dp" />
+            <TextView
+                android:id="@+id/tvContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01712345678"
+                android:textColor="#555555"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- ── Actions ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
             android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
+            <LinearLayout
                 android:id="@+id/btnCallDonor"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="CALL"
-                app:icon="@android:drawable/ic_menu_call"
-                android:layout_marginEnd="4dp"
-                android:textColor="#2E7D32"
-                app:strokeColor="#2E7D32" />
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_btn_call_minimal"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginEnd="8dp"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_phone_bold"
+                    app:tint="#800000"
+                    android:layout_marginEnd="8dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CALL"
+                    android:textColor="#800000"
+                    android:textStyle="bold"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <LinearLayout
                 android:id="@+id/btnAcceptDonor"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:backgroundTint="#2E7D32"
-                android:text="ACCEPT DONOR"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                android:layout_marginStart="4dp" />
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_btn_accept_solid"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginStart="8dp"
+                android:clickable="true"
+                android:focusable="true">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_check_circle_white"
+                    android:layout_marginEnd="8dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ACCEPT"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
         </LinearLayout>
-            
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

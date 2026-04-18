@@ -1,141 +1,314 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#F5F5F5"
+    android:background="#FAFAFA"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="#D11A2A"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:elevation="4dp">
-        
-        <ImageView
-            android:id="@+id/back_button"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#FFFFFF" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="Manage Request"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        android:elevation="2dp">
-        
-        <TextView
-            android:id="@+id/tvManageHeader"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Loading Request Detail..."
-            android:textColor="#D11A2A"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvPatientDetails"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#444444"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tvReason"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:textColor="#666666"
-            android:textStyle="italic"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tvUrgency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"
-            android:background="#FFCDD2"
-            android:textColor="#C62828"
-            android:textStyle="bold"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvHospital"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="#555555"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tvTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#777777"
-            android:textStyle="bold"
-            android:textSize="12sp" />
-            
-        <Button
-            android:id="@+id/btnCloseRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#C62828"
-            android:textColor="#FFFFFF"
-            android:text="CANCEL / CLOSE REQUEST EXTERNALLY"
-            android:textStyle="bold" />
-    </LinearLayout>
-    
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Active Responses"
-        android:textColor="#555555"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
+    <!-- ── Top Bar ── -->
     <RelativeLayout
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="64dp"
+        android:background="#FAFAFA"
+        android:paddingHorizontal="12dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewResponders"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="12dp" />
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_arrow_back"
+            app:tint="#800000" />
 
         <TextView
-            android:id="@+id/tvEmpty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="No donors have responded yet."
-            android:textColor="#888888"
-            android:textSize="16sp"
-            android:visibility="gone" />
-            
+            android:text="Manage Request"
+            android:textColor="#800000"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/menu_more"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_more_vert"
+            app:tint="#800000" />
     </RelativeLayout>
-</LinearLayout>
+
+    <!-- ── Content ── -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top_bar"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="24dp">
+
+            <!-- ── Main Request Card ── -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- Decorative Background element (Top Right curve) -->
+                    <View
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginEnd="-60dp"
+                        android:layout_marginTop="-60dp"
+                        android:background="@drawable/bg_donor_avatar_circle"
+                        android:alpha="0.3" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="24dp">
+
+                        <!-- Title/Header Row -->
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="24dp">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/tvManageHeader"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="O- Required"
+                                    android:textColor="#800000"
+                                    android:textSize="32sp"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:id="@+id/tvUnitsRequired"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="(2 Units)"
+                                    android:textColor="#555555"
+                                    android:textSize="18sp" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvUrgency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentTop="true"
+                                android:background="@drawable/bg_badge_urgency_light"
+                                android:paddingHorizontal="16dp"
+                                android:paddingVertical="6dp"
+                                android:text="NORMAL"
+                                android:textColor="#4A69BD"
+                                android:textStyle="bold"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+
+                        <!-- Data Rows -->
+                        <!-- Patient row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_user_outline"
+                                app:tint="#800000"
+                                android:layout_marginEnd="16dp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="PATIENT"
+                                    android:textColor="#999999"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:letterSpacing="0.05" />
+                                <TextView
+                                    android:id="@+id/tvPatientDetails"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Azizullah (Age: 25, Male)"
+                                    android:textColor="#333333"
+                                    android:textSize="15sp"
+                                    android:fontFamily="sans-serif-medium" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Location row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_location_pin"
+                                app:tint="#800000"
+                                android:layout_marginEnd="16dp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="LOCATION"
+                                    android:textColor="#999999"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:letterSpacing="0.05" />
+                                <TextView
+                                    android:id="@+id/tvHospital"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="BIRDEM General Hospital"
+                                    android:textColor="#333333"
+                                    android:textSize="15sp"
+                                    android:fontFamily="sans-serif-medium" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Needed By row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="24dp">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_calendar"
+                                app:tint="#800000"
+                                android:layout_marginEnd="16dp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="NEEDED BY"
+                                    android:textColor="#999999"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:letterSpacing="0.05" />
+                                <TextView
+                                    android:id="@+id/tvTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="20 Apr 2026, 07:31 PM"
+                                    android:textColor="#333333"
+                                    android:textSize="15sp"
+                                    android:fontFamily="sans-serif-medium" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Cancel Button -->
+                        <LinearLayout
+                            android:id="@+id/btnCloseRequest"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_btn_cancel_red_outline"
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:clickable="true"
+                            android:focusable="true">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_cancel_circle"
+                                app:tint="#800000"
+                                android:layout_marginEnd="12dp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CANCEL REQUEST"
+                                android:textColor="#800000"
+                                android:textStyle="bold"
+                                android:textSize="14sp"
+                                android:letterSpacing="0.05" />
+                        </LinearLayout>
+
+                        <!-- tvReason is hidden as it's not in the SS, but keep ID for Java -->
+                        <TextView
+                            android:id="@+id/tvReason"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ── Active Responses Section ── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="12dp"
+                android:text="ACTIVE RESPONSES"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.08" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewResponders"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" />
+
+            <TextView
+                android:id="@+id/tvEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="No responders yet."
+                android:textColor="#999999"
+                android:visibility="gone" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
