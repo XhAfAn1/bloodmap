@@ -51,7 +51,6 @@ public class AddBloodBankActivity extends AppCompatActivity {
         
         sw24Hours = findViewById(R.id.sw24Hours);
         btnSave = findViewById(R.id.btnSaveBank);
-        tvFormTitle = findViewById(R.id.tvBankFormTitle);
 
         if (getIntent() != null && getIntent().hasExtra("ID")) {
             bloodBankId = getIntent().getStringExtra("ID");

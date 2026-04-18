@@ -31,24 +31,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Edit Hospital"
+            android:text="Hospital Informations"
             android:textColor="#800000"
             android:textSize="17sp"
             android:textStyle="bold" />
 
-        <!-- Save icon on top right -->
-        <ImageView
-            android:id="@+id/ivSaveIcon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@android:drawable/checkbox_on_background"
-            android:padding="4dp"
-            app:tint="#800000"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?android:attr/selectableItemBackgroundBorderless" />
+
     </RelativeLayout>
 
     <ScrollView
@@ -332,13 +320,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:backgroundTint="#800000"
-                android:text="Update Hospital Info"
+                android:text="Add Hospital Info"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_save"
                 app:iconTint="#FFFFFF"
                 app:iconGravity="textStart" />
 

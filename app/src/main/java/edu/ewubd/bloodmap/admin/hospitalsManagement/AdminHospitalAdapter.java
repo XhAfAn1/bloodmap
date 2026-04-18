@@ -60,6 +60,9 @@ public class AdminHospitalAdapter extends RecyclerView.Adapter<AdminHospitalAdap
  
         // Admin Edit Button - Always visible for this adapter
         holder.btnEditHospital.setVisibility(View.VISIBLE);
+        holder.btnCallHospital.setVisibility(View.GONE);
+        holder.btnNavigateHospital.setVisibility(View.GONE);
+
         holder.btnEditHospital.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), AddHospitalActivity.class);
             intent.putExtra("ID", model.getHospitalId());
@@ -90,6 +93,7 @@ public class AdminHospitalAdapter extends RecyclerView.Adapter<AdminHospitalAdap
     static class AdminHospitalViewHolder extends RecyclerView.ViewHolder {
         TextView tvHospitalName, tvHospitalContact, tvHospitalAddress, tvFacilities, tvCoordinates, tvBloodBankStatus;
         ImageButton btnEditHospital;
+        View btnCallHospital, btnNavigateHospital;
  
         public AdminHospitalViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -100,6 +104,8 @@ public class AdminHospitalAdapter extends RecyclerView.Adapter<AdminHospitalAdap
             tvCoordinates = itemView.findViewById(R.id.tvCoordinates);
             tvBloodBankStatus = itemView.findViewById(R.id.tvBloodBankStatus);
             btnEditHospital = itemView.findViewById(R.id.btnEditHospital);
+            btnCallHospital = itemView.findViewById(R.id.btnCallHospital);
+            btnNavigateHospital = itemView.findViewById(R.id.btnNavigateHospital);
         }
     }
 }

@@ -67,6 +67,9 @@ public class AdminBloodBankAdapter extends RecyclerView.Adapter<AdminBloodBankAd
  
         // Admin Edit Button - Always visible for this adapter
         holder.btnEditBank.setVisibility(View.VISIBLE);
+        holder.btnCallBank.setVisibility(View.GONE);
+        holder.btnNavigateBank.setVisibility(View.GONE);
+
         holder.btnEditBank.setOnClickListener(v -> {
             Intent intent = new Intent(v.getContext(), AddBloodBankActivity.class);
             intent.putExtra("ID", model.getBloodBankId());
@@ -89,6 +92,7 @@ public class AdminBloodBankAdapter extends RecyclerView.Adapter<AdminBloodBankAd
     static class AdminBankViewHolder extends RecyclerView.ViewHolder {
         TextView tvBankName, tvContact, tvAddress, tvStockSummary, tvBankCoordinates, tv24hBadge;
         ImageButton btnEditBank;
+        View btnCallBank, btnNavigateBank;
  
         public AdminBankViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -99,6 +103,8 @@ public class AdminBloodBankAdapter extends RecyclerView.Adapter<AdminBloodBankAd
             tvBankCoordinates = itemView.findViewById(R.id.tvBankCoordinates);
             tv24hBadge = itemView.findViewById(R.id.tv24hBadge);
             btnEditBank = itemView.findViewById(R.id.btnEditBank);
+            btnCallBank = itemView.findViewById(R.id.btnCallBank);
+            btnNavigateBank = itemView.findViewById(R.id.btnNavigateBank);
         }
     }
 }

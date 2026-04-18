@@ -2,6 +2,7 @@ package edu.ewubd.bloodmap.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,8 +12,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import edu.ewubd.bloodmap.Authentication.AuthActivity;
+import edu.ewubd.bloodmap.Notifications.NotificationSender;
 import edu.ewubd.bloodmap.admin.bloodbankManagement.AdminBloodBanksActivity;
 import edu.ewubd.bloodmap.admin.hospitalsManagement.AdminHospitalsActivity;
 import edu.ewubd.bloodmap.R;
@@ -25,6 +28,7 @@ public class AdminActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private TextView tvUsersCount, tvHospitalsCount, tvBloodBanksCount;
     private TextView  tvActiveRequestsCount, tvCompletedRequestsCount, tvAvailableDonorsCount;
+    private EditText etBroadcastTitle, etBroadcastMessage;
 
     private com.google.firebase.firestore.ListenerRegistration usersReg, donorsReg, hospitalsReg, banksReg, activeReqReg, completedReqReg;
 
@@ -41,6 +45,9 @@ public class AdminActivity extends AppCompatActivity {
         tvCompletedRequestsCount = findViewById(R.id.tvCompletedRequestsCount);
         tvAvailableDonorsCount = findViewById(R.id.tvAvailableDonorsCount);
 
+        etBroadcastTitle = findViewById(R.id.et_broadcast_title);
+        etBroadcastMessage = findViewById(R.id.et_broadcast_message);
+
         findViewById(R.id.menu_icon).setOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
 
         findViewById(R.id.menu_show_users).setOnClickListener(v -> closeDrawerAndStart(UserListActivity.class));
@@ -50,6 +57,18 @@ public class AdminActivity extends AppCompatActivity {
         findViewById(R.id.menu_active_requests).setOnClickListener(v -> closeDrawerAndStartAdminRequests("OPEN"));
         findViewById(R.id.menu_previous_requests).setOnClickListener(v -> closeDrawerAndStartAdminRequests("COMPLETED"));
         
+        findViewById(R.id.btn_mass_alert).setOnClickListener(v -> {
+            String title = etBroadcastTitle.getText().toString().trim();
+            String message = etBroadcastMessage.getText().toString().trim();
+
+            if (title.isEmpty() || message.isEmpty()) {
+                Toast.makeText(this, "Please enter both title and message", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            sendMassNotification(title, message);
+        });
+
         findViewById(R.id.menu_logout_admin).setOnClickListener(v -> {
             String uid = FirebaseAuth.getInstance().getUid();
             if (uid != null) {
@@ -144,6 +163,32 @@ public class AdminActivity extends AppCompatActivity {
         }
     }
 
+    private void sendMassNotification(String title, String message) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .whereNotEqualTo("token", null)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    int count = 0;
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        String token = doc.getString("token");
+                        if (token != null && !token.isEmpty()) {
+                            NotificationSender.sendAdminBroadcast(this, token, title, message);
+                            count++;
+                        }
+                    }
+                    if (count > 0) {
+                        Toast.makeText(this, "Broadcasting to " + count + " users...", Toast.LENGTH_LONG).show();
+                        etBroadcastTitle.setText("");
+                        etBroadcastMessage.setText("");
+                    } else {
+                        Toast.makeText(this, "No users with valid tokens found", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to fetch users: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 
     @Override
     public void onBackPressed() {

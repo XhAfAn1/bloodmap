@@ -7,72 +7,36 @@
     android:background="#FAF7F7"
     android:fitsSystemWindows="true">
 
-    <!-- Top Action Bar Area -->
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/top_appbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:background="#FFFFFF"
         android:paddingHorizontal="16dp"
-        android:background="#FAF7F7">
+        android:elevation="2dp">
 
-        <!-- Explicit Back Arrow Button -->
         <ImageView
             android:id="@+id/back_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="3dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
             android:src="@drawable/ic_arrow_back"
-            app:tint="#590600"
-            android:background="?android:attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true" />
-
-        <!-- Title Block -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layout_marginStart="16dp">
-            
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/ic_avatar" 
-                app:tint="#800000" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="System Users"
-                android:letterSpacing="0.10"
-                android:textColor="#800000"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Right side controls (Search & Profile) -->
-        <ImageView
-            android:id="@+id/ivSearch"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@android:drawable/ic_menu_search"
-            app:tint="#4A4A4A"
+            android:padding="4dp"
             android:background="?android:attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:focusable="true"
-            android:layout_marginEnd="16dp" />
+            app:tint="#800000" />
 
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:background="@drawable/bg_blood_group"
-            android:padding="2dp"
-            android:src="@drawable/ic_avatar" />
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="System Users"
+            android:textColor="#800000"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 
     <!-- Search Bar (Initially Hidden) -->
     <LinearLayout
@@ -97,68 +61,6 @@
             android:maxLines="1" />
     </LinearLayout>
 
-    <!-- Header Area (Title & Add button) -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp">
-        
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MANAGEMENT CONSOLE"
-                android:textColor="#A44C4C"
-                android:textSize="8sp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                android:letterSpacing="0.05" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Staff &amp; Personnel"
-                android:textColor="#1A1A1A"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:layout_marginTop="2dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/bg_add_button"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="8dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true">
-            <!-- In standard Android, ic_input_add doesn't exist directly everywhere so usually we would just rely on a custom drawable or text. -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:text="+"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Add New"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:textSize="10sp" />
-        </LinearLayout>
-    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

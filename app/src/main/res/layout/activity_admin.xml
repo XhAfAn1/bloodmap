@@ -5,6 +5,7 @@
     android:id="@+id/admin_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -50,7 +51,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_weight="1"
-                        android:text="Editorial Admin Dashboard"
+                        android:text="System Overview"
                         android:textColor="#800000"
                         android:textSize="18sp"
                         android:letterSpacing="0.06"
@@ -58,32 +59,6 @@
                         android:lineSpacingExtra="-2dp"/>
                 </LinearLayout>
 
-                <!-- Header Area -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingHorizontal="20dp"
-                    android:paddingTop="16dp">
-                    
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ANALYTICAL PULSE"
-                        android:textColor="#800000"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        android:letterSpacing="0.05" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="System Overview"
-                        android:textColor="#1A1A1A"
-                        android:textSize="26sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="2dp" />
-                </LinearLayout>
 
                 <!-- Stats Grid -->
                 <GridLayout
@@ -286,65 +261,6 @@
                     </androidx.cardview.widget.CardView>
                 </GridLayout>
 
-                <!-- Map Card -->
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="220dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="16dp"
-                    app:cardCornerRadius="16dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="#D3E0E2">
-                    <!-- Faked map background color -->
-                    
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:src="@android:drawable/ic_dialog_map"
-                        android:alpha="0.1"
-                        app:tint="#4A6572" />
-                        
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:padding="24dp"
-                        android:gravity="center_vertical">
-                        
-                        <Space android:layout_weight="1" android:layout_width="match_parent" android:layout_height="0dp"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Regional Logistics Map"
-                            android:textColor="#3E0000"
-                            android:textSize="20sp"
-                            android:textStyle="bold"/>
-
-                        <TextView
-                            android:layout_width="180dp"
-                            android:layout_height="wrap_content"
-                            android:text="Real-time visualization of current blood supply routes."
-                            android:textColor="#5A5A5A"
-                            android:textSize="12sp"
-                            android:layout_marginTop="4dp"
-                            android:layout_marginBottom="16dp"/>
-
-                        <TextView
-                            android:id="@+id/btn_expand_map"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_add_button"
-                            android:text="Expand Map"
-                            android:textColor="#FFFFFF"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="10dp"/>
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
                 <!-- Emergency Broadcast Card -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -373,23 +289,32 @@
                             android:textAllCaps="true"
                             android:layout_marginBottom="12dp"/>
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/et_broadcast_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Critical O- Negative Shortage"
+                            android:hint="Broadcast Title"
                             android:textColor="#FFFFFF"
-                            android:textSize="22sp"
+                            android:textColorHint="#FFCDD2"
+                            android:background="@null"
+                            android:textSize="20sp"
                             android:textStyle="bold"
-                            android:layout_marginBottom="12dp"
-                            android:lineSpacingExtra="2dp"/>
+                            android:layout_marginBottom="8dp"
+                            android:padding="0dp"/>
 
-                        <TextView
+                        <EditText
+                            android:id="@+id/et_broadcast_message"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Immediate outreach required for registered donors."
+                            android:hint="Type your emergency message here..."
                             android:textColor="#FFEBEE"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="24dp"/>
+                            android:textColorHint="#FFCDD2"
+                            android:background="@null"
+                            android:textSize="14sp"
+                            android:layout_marginBottom="24dp"
+                            android:padding="0dp"
+                            android:minLines="2"
+                            android:inputType="textMultiLine"/>
 
                         <TextView
                             android:id="@+id/btn_mass_alert"
@@ -401,7 +326,9 @@
                             android:textSize="11sp"
                             android:textStyle="bold"
                             android:gravity="center"
-                            android:paddingVertical="12dp"/>
+                            android:paddingVertical="12dp"
+                            android:clickable="true"
+                            android:focusable="true"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
@@ -439,7 +366,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Admin Console"
+                    android:text="Admin Portal"
                     android:textColor="#800000"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -464,12 +391,12 @@
                 android:orientation="vertical"
                 android:paddingHorizontal="16dp">
 
-                <!-- 1. Show All Users (Active State) -->
+                <!-- 1. Show All Users -->
                 <LinearLayout
                     android:id="@+id/menu_show_users"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_bottom_nav_active"
+                    android:background="?android:attr/selectableItemBackground"
                     android:paddingVertical="12dp"
                     android:paddingHorizontal="16dp"
                     android:orientation="horizontal"
@@ -481,14 +408,14 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:src="@drawable/ic_admin_users_bold"
-                        app:tint="#B71C1C" />
+                        app:tint="#1A1A1A" />
                     <!-- Text -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:text="Show All Users"
-                        android:textColor="#B71C1C"
+                        android:textColor="#1A1A1A"
                         android:textSize="13sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -509,7 +436,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/ic_admin_hospital_bold"
+                        android:src="@drawable/ic_blood_drop"
                         app:tint="#1A1A1A" />
                     <TextView
                         android:layout_width="wrap_content"

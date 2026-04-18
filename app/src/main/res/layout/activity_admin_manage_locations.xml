@@ -35,16 +35,6 @@
             android:textColor="#800000"
             android:textSize="17sp"
             android:textStyle="bold" />
-
-        <!-- 3-dot overflow icon (decorative) -->
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@android:drawable/ic_menu_more"
-            android:padding="2dp"
-            app:tint="#800000" />
     </RelativeLayout>
 
     <!-- Spinner / Filter Card -->
