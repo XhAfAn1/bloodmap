@@ -23,7 +23,7 @@ public class DonationHistoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private DonationHistoryAdapter adapter;
     private List<BloodTransactionModel> requestList;
-    private TextView tvEmpty;
+    private android.view.View tvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

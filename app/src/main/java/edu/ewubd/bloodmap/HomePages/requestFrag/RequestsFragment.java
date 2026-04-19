@@ -93,11 +93,17 @@ public class RequestsFragment extends Fragment implements RequestAdapter.OnReque
     public void onRespondClick(BloodTransactionModel model, int position) {
         String currentUid = FirebaseAuth.getInstance().getUid();
         if (currentUid == null) {
-            Toast.makeText(getContext(), "You must be logged in to respond.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "You must be logged in to proceed.", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // First check if user is banned
+        if (currentUid.equals(model.getRequesterUid())) {
+            Intent intent = new Intent(getContext(), edu.ewubd.bloodmap.DrawerPages.myRequst.ManageRequestActivity.class);
+            intent.putExtra("transactionId", model.getTransactionId());
+            startActivity(intent);
+            return;
+        }
+
         FirebaseFirestore.getInstance().collection("users").document(currentUid).get()
             .addOnSuccessListener(userDoc -> {
                 if (getContext() == null) return;
@@ -111,16 +117,6 @@ public class RequestsFragment extends Fragment implements RequestAdapter.OnReque
                     return;
                 }
 
-                if (currentUid.equals(model.getRequesterUid())) {
-                    new AlertDialog.Builder(getContext())
-                        .setTitle("Invalid Action")
-                        .setMessage("You cannot respond to your own blood request.")
-                        .setPositiveButton("OK", null)
-                        .show();
-                    return;
-                }
-
-                // check profile before allowing response
                 String bloodGroup = userDoc.getString("bloodGroup");
                 String contactNumber = userDoc.getString("contactNumber");
                 boolean incomplete = (bloodGroup == null || bloodGroup.isEmpty())
@@ -151,7 +147,6 @@ public class RequestsFragment extends Fragment implements RequestAdapter.OnReque
             .addOnSuccessListener(aVoid -> {
                 if (getContext() != null) {
                     Toast.makeText(getContext(), "Response Sent!", Toast.LENGTH_SHORT).show();
-                    // Update local model so the button greys out immediately without full reload
                     if (model.getResponderUids() == null) {
                         model.setResponderUids(new ArrayList<>());
                     }

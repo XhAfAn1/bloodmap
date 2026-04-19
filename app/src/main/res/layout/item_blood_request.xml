@@ -2,9 +2,10 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="16dp"
+    android:layout_marginHorizontal="14dp"
     android:layout_marginBottom="14dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="0dp"
@@ -16,7 +17,6 @@
         android:orientation="vertical"
         android:padding="20dp">
 
-        <!-- Top Row: Blood Group Title + Premium Badge + Urgency -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,6 +31,7 @@
                 android:textColor="#800000"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                tools:text="A+ Blood Request"
                 android:layout_toStartOf="@+id/tvUrgency"
                 android:layout_marginEnd="8dp" />
 
@@ -64,6 +65,7 @@
                     android:paddingVertical="5dp"
                     android:background="@drawable/bg_badge_red"
                     android:textColor="#FFFFFF"
+                    tools:text="URGENT"
                     android:textStyle="bold"
                     android:textSize="9sp"
                     android:letterSpacing="0.04" />
@@ -87,6 +89,7 @@
             android:layout_height="wrap_content"
             android:textColor="#1A1A1A"
             android:textSize="14sp"
+            tools:text="Azizullah • 25 years • Male"
             android:textStyle="bold"
             android:layout_marginBottom="6dp" />
 
@@ -96,17 +99,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#757575"
+            tools:text="Reason: Major surgery required immediately"
             android:textSize="13sp"
             android:layout_marginBottom="4dp" />
 
-        <!-- Notes -->
-        <TextView
-            android:id="@+id/tvNotes"
+        <!-- Notes Container -->
+        <LinearLayout
+            android:id="@+id/layoutNotesContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#9E9E9E"
-            android:textSize="13sp"
-            android:layout_marginBottom="12dp" />
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ADDITIONAL INFO"
+                android:textColor="#BDBDBD"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:layout_marginBottom="4dp" />
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#757575"
+                tools:text="Please contact 01234567890 if you are available."
+                android:textSize="13sp"
+                android:layout_marginBottom="12dp" />
+        </LinearLayout>
 
         <!-- Divider -->
         <View
@@ -133,6 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:textColor="#555555"
+                tools:text="Square Hospital, DHaka"
                 android:textSize="13sp" />
         </LinearLayout>
 
@@ -141,8 +163,9 @@
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#BDBDBD"
-            android:textSize="11sp"
+            android:textColor="#FF0000"
+            tools:text="Needed by Tomorrow 9:00 AM"
+            android:textSize="13sp"
             android:layout_marginBottom="14dp" />
 
         <!-- Divider -->
@@ -157,22 +180,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tvStatusMessage"
-                android:layout_width="wrap_content"
+            <!-- Status Message Container -->
+            <LinearLayout
+                android:id="@+id/layoutStatusMessageContainer"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:orientation="vertical"
                 android:layout_toStartOf="@+id/btnRespond"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
-                android:textColor="#2E7D32"
-                android:textStyle="bold"
-                android:textSize="12sp" />
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LIVE STATUS"
+                    android:textColor="#2E7D32"
+                    android:textSize="8sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05" />
+                <TextView
+                    android:id="@+id/tvStatusMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#2E7D32"
+                    android:textStyle="bold"
+                    tools:text="3 Donors responding"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnRespond"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:backgroundTint="#800000"
                 android:textColor="#FFFFFF"
                 android:textSize="11sp"

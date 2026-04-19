@@ -27,7 +27,7 @@ public class OpenResponsesActivity extends AppCompatActivity implements MyRespon
     private RecyclerView recyclerView;
     private MyResponsesAdapter adapter;
     private List<BloodTransactionModel> requestList;
-    private TextView tvEmpty;
+    private android.view.View tvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

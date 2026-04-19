@@ -12,16 +12,13 @@ public class AvailableItemModel {
     public static final int TYPE_AREA = 1;
 
     private int type;
-    
-    // For Both
+
     private String name;
     private int donorCount;
-    
-    // For Area
+
     private List<UserModel> donors = new ArrayList<>();
     private boolean isExpanded = false;
 
-    // Constructors
     public AvailableItemModel(int type, String name) {
         this.type = type;
         this.name = name;
@@ -35,7 +32,6 @@ public class AvailableItemModel {
         this.donorCount = donors.size();
     }
 
-    // Getters
     public int getType() { return type; }
     public String getName() { return name; }
     public int getDonorCount() { return donorCount; }

@@ -85,7 +85,6 @@ public class AvailableHierarchyAdapter extends RecyclerView.Adapter<RecyclerView
                     String bg = donor.getBloodGroup();
                     tvBadge.setText((bg != null && !bg.isEmpty()) ? bg : "?");
 
-                    // Optional: click donor view to call
                     donorView.setOnClickListener(v -> {
                         if (!phone.equals("No Contact")) {
                             Intent intent = new Intent(Intent.ACTION_DIAL);

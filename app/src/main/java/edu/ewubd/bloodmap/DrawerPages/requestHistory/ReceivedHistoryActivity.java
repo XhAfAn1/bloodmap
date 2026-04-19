@@ -23,7 +23,7 @@ public class ReceivedHistoryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ReceivedHistoryAdapter adapter;
     private List<BloodTransactionModel> requestList;
-    private TextView tvEmpty;
+    private android.view.View tvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,6 @@ public class ReceivedHistoryActivity extends AppCompatActivity {
                     requestList.clear();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         BloodTransactionModel model = doc.toObject(BloodTransactionModel.class);
-                        // show everything that is no longer active
                         String status = model.getStatus();
                         if (status != null && !status.equals("OPEN")) {
                             requestList.add(model);

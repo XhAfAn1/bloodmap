@@ -69,7 +69,7 @@ public class ResponderAdapter extends RecyclerView.Adapter<ResponderAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvBloodGroup, tvContact, tvStats;
-        Button btnAcceptDonor, btnCallDonor;
+        android.view.View btnAcceptDonor, btnCallDonor;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

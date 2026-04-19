@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
@@ -143,14 +144,34 @@
             android:layout_height="wrap_content">
 
             <!-- Coordinates (left) -->
-            <TextView
-                android:id="@+id/tvCoordinates"
+            <!-- Info Container (left) -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textColor="#BDBDBD"
-                android:textSize="10sp"
-                android:lineSpacingExtra="2dp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCoordinates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#BDBDBD"
+                    tools:text="23.7275° N, 90.3950° E"
+                    android:textSize="10sp"
+                    android:lineSpacingExtra="2dp" />
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#800000"
+                    tools:text="0.5 km"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+            </LinearLayout>
 
             <!-- Action Buttons (right) -->
             <LinearLayout
@@ -167,6 +188,7 @@
                     android:layout_height="44dp"
                     android:orientation="horizontal"
                     android:gravity="center"
+                    android:elevation="2dp"
                     android:paddingHorizontal="16dp"
                     android:layout_marginEnd="10dp"
                     android:clickable="true"

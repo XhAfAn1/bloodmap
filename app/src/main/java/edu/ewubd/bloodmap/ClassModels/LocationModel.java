@@ -8,11 +8,11 @@ public class LocationModel {
     private String name;
     private double latitude;
     private double longitude;
-    private String type; // e.g. "hospital" or "area"
+    private String type; 
 
     public LocationModel() {
-        // Default constructor required for calls to DataSnapshot.getValue(LocationModel.class)
-    }
+       
+    }   
 
     public LocationModel(String name, double latitude, double longitude, String type) {
         this.name = name;
@@ -63,7 +63,6 @@ public class LocationModel {
 
     @Override
     public String toString() {
-        // This is what the ArrayAdapter uses to display the suggestions
         return name;
     }
 }

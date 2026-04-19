@@ -43,6 +43,7 @@ import edu.ewubd.bloodmap.ProfilePage.ProfileActivity;
 public class MainActivity extends AppCompatActivity {
 
     private LinearLayout navRequests, navNewRequest, navAvailable, navHeatmap;
+    private TextView tvAppTitle;
     private DrawerLayout drawer;
     private int currentTabIndex = 0;
     private FusedLocationProviderClient fusedLocationClient;
@@ -53,10 +54,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         drawer = findViewById(R.id.drawer_layout);
+        tvAppTitle = findViewById(R.id.app_title);
 
         findViewById(R.id.menu_icon).setOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
         
-        findViewById(R.id.app_title).setOnClickListener(v -> selectTab(0));
+        tvAppTitle.setOnClickListener(v -> selectTab(0));
 
         navRequests = findViewById(R.id.nav_requests);
         navNewRequest = findViewById(R.id.nav_new_request);
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.menu_hospital_list).setOnClickListener(v -> closeDrawerAndStart(HospitalContactsActivity.class));
         findViewById(R.id.menu_blood_bank_list).setOnClickListener(v -> closeDrawerAndStart(BloodBanksActivity.class));
         findViewById(R.id.menu_chatbot).setOnClickListener(v -> closeDrawerAndStart(ChatbotActivity.class));
+        findViewById(R.id.menu_user_manual).setOnClickListener(v -> closeDrawerAndStart(edu.ewubd.bloodmap.Documentation.UserGuideActivity.class));
         
         findViewById(R.id.menu_logout).setOnClickListener(v -> {
             String uid = FirebaseAuth.getInstance().getUid();
@@ -231,10 +234,19 @@ public class MainActivity extends AppCompatActivity {
         highlightTabBasedOnIndex(index);
 
         Fragment selectedFragment = null;
-        if (index == 0) selectedFragment = new RequestsFragment();
-        else if (index == 1) selectedFragment = new NewRequestFragment();
-        else if (index == 2) selectedFragment = new AvailableFragment();
-        else if (index == 3) selectedFragment = new HeatmapFragment();
+        if (index == 0) {
+            selectedFragment = new RequestsFragment();
+            tvAppTitle.setText("Blood Requests");
+        } else if (index == 1) {
+            selectedFragment = new NewRequestFragment();
+            tvAppTitle.setText("New Blood Request");
+        } else if (index == 2) {
+            selectedFragment = new AvailableFragment();
+            tvAppTitle.setText("Available Donors");
+        } else if (index == 3) {
+            selectedFragment = new HeatmapFragment();
+            tvAppTitle.setText("Blood Heatmap");
+        }
 
         if (selectedFragment != null) {
             getSupportFragmentManager().beginTransaction()
@@ -247,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
     public void navigateToAvailableWithQuery(String query) {
         currentTabIndex = 2;
         highlightTabBasedOnIndex(2);
+        tvAppTitle.setText("Available Donors");
         AvailableFragment frag = new AvailableFragment();
         if (query != null && !query.isEmpty()) {
             Bundle args = new Bundle();

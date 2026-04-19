@@ -24,7 +24,7 @@ public class OpenRequestsActivity extends AppCompatActivity implements MyRequest
     private RecyclerView recyclerView;
     private MyRequestsAdapter adapter;
     private List<BloodTransactionModel> requestList;
-    private TextView tvEmpty;
+    private android.view.View tvEmpty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,6 @@ public class OpenRequestsActivity extends AppCompatActivity implements MyRequest
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
         requestList = new ArrayList<>();
-        // Note: isHistoryMode = true intentionally hides the interaction container locally.
         adapter = new MyRequestsAdapter(requestList, this);
         recyclerView.setAdapter(adapter);
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Received History"
-            android:textColor="#1A1A1A"
+            android:textColor="#800000"
             android:textSize="18sp"
             android:fontFamily="sans-serif-medium"
             android:textStyle="bold" />
@@ -51,7 +52,8 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            tools:listitem="@layout/item_received_history" />
 
         <LinearLayout
             android:id="@+id/tvEmpty"

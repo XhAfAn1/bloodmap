@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
@@ -45,28 +46,11 @@
                 android:layout_marginStart="12dp"
                 android:layout_centerVertical="true"
                 android:textColor="#757575"
+                tools:text="+880 1712-345678"
                 android:textSize="11sp"
                 android:visibility="visible" />
 
-            <!-- Call Button -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnCallBank"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:layout_alignParentEnd="true"
-                app:cardCornerRadius="22dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="#FFFFFF"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_phone_bold"
-                    app:tint="#1A1A1A" />
-            </androidx.cardview.widget.CardView>
+            <!-- Call Button (Moved to bottom) -->
 
             <!-- Edit Button (Positioned to the left of Call button to prevent overlap) -->
             <ImageButton
@@ -178,39 +162,84 @@
                     android:id="@+id/tvBankCoordinates"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="23.7509° N, 90.3756° E (2.4 km away)"
                     android:textColor="#1A1A1A"
-                    android:textSize="11sp"
-                    android:textStyle="bold"
+                    tools:text="23.7516° N, 90.3758° E"
+                    android:textSize="10sp"
                     android:layout_marginTop="2dp" />
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="#800000"
+                    tools:text="1.2 km away"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/btnNavigateBank"
                 android:layout_width="wrap_content"
-                android:layout_height="44dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/bg_button_direction"
-                android:gravity="center"
-                android:paddingHorizontal="20dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?android:attr/selectableItemBackground">
-                
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Direction"
-                    android:textColor="#FFFFFF"
-                    android:textSize="13sp"
-                    android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-                <ImageView
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
-                    android:layout_marginStart="8dp"
-                    android:src="@drawable/ic_arrow_direction" />
-            </LinearLayout>
+                <!-- Call Button -->
+                <LinearLayout
+                    android:id="@+id/btnCallBank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:paddingHorizontal="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_phone_bold"
+                        app:tint="#1A1A1A" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="CALL"
+                        android:textColor="#1A1A1A"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.04" />
+                </LinearLayout>
+
+                <!-- Navigate Button -->
+                <LinearLayout
+                    android:id="@+id/btnNavigateBank"
+                    android:layout_width="wrap_content"
+                    android:layout_height="44dp"
+                    android:background="@drawable/bg_button_direction"
+                    android:gravity="center"
+                    android:paddingHorizontal="20dp"
+                    android:orientation="horizontal"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Direction"
+                        android:textColor="#FFFFFF"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/ic_arrow_direction" />
+                </LinearLayout>
+            </LinearLayout>t>
         </RelativeLayout>
 
     </RelativeLayout>
