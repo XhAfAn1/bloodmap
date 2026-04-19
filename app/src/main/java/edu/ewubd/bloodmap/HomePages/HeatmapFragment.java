@@ -166,7 +166,8 @@ public class HeatmapFragment extends Fragment {
         for (LocationModel area : cachedAreas) {
             int count = donorCounts.getOrDefault(area.getName(), 0);
             if (count > 0) {
-                spawnMarker(area.getLatitude(), area.getLongitude(), area.getName(), count + " Active Donors Available");
+                spawnMarker(area.getLatitude(), area.getLongitude(), area.getName(), 
+                           count + " Active Donors Available", R.drawable.ic_location_pin);
             }
         }
         map.invalidate();
@@ -177,7 +178,9 @@ public class HeatmapFragment extends Fragment {
         map.getOverlays().clear();
 
         for (HospitalContactModel hosp : cachedHospitals) {
-            spawnMarker(hosp.getLatitude(), hosp.getLongitude(), hosp.getHospitalName() != null ? hosp.getHospitalName() : "Unknown Hospital", "Healthcare Facility");
+            spawnMarker(hosp.getLatitude(), hosp.getLongitude(), 
+                       hosp.getHospitalName() != null ? hosp.getHospitalName() : "Unknown Hospital", 
+                       "Healthcare Facility", R.drawable.ic_admin_hospital_bold);
         }
         
         map.invalidate();
@@ -188,20 +191,38 @@ public class HeatmapFragment extends Fragment {
         map.getOverlays().clear();
 
         for (BloodBankModel bank : cachedBloodBanks) {
-            spawnMarker(bank.getLatitude(), bank.getLongitude(), bank.getBankName() != null ? bank.getBankName() : "Unknown Bank", "Blood Bank Facility");
+            spawnMarker(bank.getLatitude(), bank.getLongitude(), 
+                       bank.getBankName() != null ? bank.getBankName() : "Unknown Bank", 
+                       "Blood Bank Facility", R.drawable.ic_blood_drop);
         }
         
         map.invalidate();
     }
 
-    private void spawnMarker(double lat, double lon, String title, String snippet) {
-        if (lat == 0.0 && lon == 0.0) return; // Avoid dropping pins into the Gulf of Guinea organically
+    private void spawnMarker(double lat, double lon, String title, String snippet, int iconResId) {
+        if (lat == 0.0 && lon == 0.0) return;
         GeoPoint point = new GeoPoint(lat, lon);
         Marker marker = new Marker(map);
         marker.setPosition(point);
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         marker.setTitle(title);
         marker.setSnippet(snippet);
+        
+        try {
+            android.graphics.drawable.Drawable icon = androidx.core.content.ContextCompat.getDrawable(requireContext(), iconResId);
+            if (icon != null) {
+                if (iconResId == R.drawable.ic_location_pin) {
+                    androidx.core.graphics.drawable.DrawableCompat.setTint(icon, android.graphics.Color.parseColor("#800000")); // Maroon for Donors
+                } else if (iconResId == R.drawable.ic_admin_hospital_bold) {
+                    androidx.core.graphics.drawable.DrawableCompat.setTint(icon, android.graphics.Color.parseColor("#1565C0")); // Blue for Hospitals
+                } else {
+                    androidx.core.graphics.drawable.DrawableCompat.setTint(icon, android.graphics.Color.parseColor("#B71C1C")); // Red for Blood Banks
+                }
+                marker.setIcon(icon);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         
         marker.setOnMarkerClickListener((m, mapView) -> {
             m.showInfoWindow();
