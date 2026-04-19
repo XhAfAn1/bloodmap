@@ -78,5 +78,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.3.0")
 
     // Google Auth (for FCM V1)
+    implementation(libs.gson)
     implementation("com.google.auth:google-auth-library-oauth2-http:1.23.0")
 }

@@ -27,11 +27,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-        </activity>
-
+        <activity android:name=".MainActivity" android:exported="true"></activity>
         <activity android:name=".admin.AdminActivity" android:exported="false" />
         <activity android:name=".admin.userManagement.UserListActivity" android:exported="false" />
         <activity android:name=".admin.bloodbankManagement.AddBloodBankActivity" android:exported="false" />
@@ -41,21 +37,15 @@
         <activity android:name=".admin.hospitalsManagement.AdminHospitalsActivity" android:exported="false" />
         <activity android:name=".admin.bloodbankManagement.AdminBloodBanksActivity" android:exported="false" />
         <activity android:name=".ProfilePage.ProfileActivity" android:exported="false" />
-        <activity
-            android:name=".DrawerPages.myRequst.OpenRequestsActivity"
-            android:exported="false" />
-            
-        <activity
-            android:name=".DrawerPages.myRequst.ManageRequestActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".DrawerPages.myResponse.OpenResponsesActivity" android:exported="false" />
+        <activity android:name=".DrawerPages.myRequst.OpenRequestsActivity" android:exported="false" />
+        <activity android:name=".DrawerPages.myRequst.ManageRequestActivity" android:exported="false" />
+        <activity android:name=".DrawerPages.myResponse.OpenResponsesActivity" android:exported="false" />
         <activity android:name=".DrawerPages.donationHistory.DonationHistoryActivity" android:exported="false" />
         <activity android:name=".DrawerPages.requestHistory.ReceivedHistoryActivity" android:exported="false" />
         <activity android:name=".DrawerPages.nearHospital.HospitalContactsActivity" android:exported="false" />
         <activity android:name=".DrawerPages.nearBloodBank.BloodBanksActivity" android:exported="false" />
         <activity android:name=".DrawerPages.ChatbotActivity" android:exported="false" />
+        <activity android:name=".OfflineMode.OfflineDashboardActivity" android:exported="false" />
 
         <service
             android:name=".Notifications.FirebaseNotificationService"
@@ -64,6 +54,12 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <activity
+            android:name=".Documentation.UserGuideActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Bloodmap" />
+
     </application>
 
 </manifest>
