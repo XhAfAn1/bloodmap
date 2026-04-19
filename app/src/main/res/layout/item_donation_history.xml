@@ -2,85 +2,181 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    android:layout_marginHorizontal="16dp"
-    android:layout_marginTop="6dp"
-    app:cardBackgroundColor="#E8F5E9"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="2dp"
-    app:contentPadding="16dp">
+    android:layout_marginHorizontal="0dp"
+    android:layout_marginBottom="14dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#E8F5E9">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <LinearLayout
+        <!-- Header: Success Tag + Group -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="12dp">
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Life Saved Successfully!"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:textColor="#2E7D32"
-                android:textSize="18sp"
+                tools:text="O+ DONATION"
+                android:textSize="22sp"
                 android:textStyle="bold" />
-                
-            <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="0dp"/>
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@android:drawable/btn_star_big_on"
-                app:tint="#FFC107" />
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:background="#A5D6A7">
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_check_circle_white"
+                    app:tint="#FFFFFF"
+                    android:layout_marginEnd="4dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LIFE SAVED"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="8sp"
+                    android:letterSpacing="0.05" />
+            </LinearLayout>
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <!-- Divider -->
+        <View
             android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#C8E6C9"
+            android:layout_marginBottom="12dp" />
+
+        <!-- Patient Info -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#333333"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:text="DONATED TO"
+            android:textColor="#81C784"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.05"
+            android:layout_marginBottom="4dp" />
 
         <TextView
             android:id="@+id/tvPatientDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:textColor="#444444"
-            android:textSize="14sp" />
+            android:textColor="#2E7D32"
+            tools:text="Patient: Azizullah • 25 Yrs • Male"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
-        <TextView
-            android:id="@+id/tvHospital"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textColor="#555555"
-            android:textSize="14sp" />
-
-        <View
+        <!-- Hospital Info Row -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginVertical="10dp"
-            android:background="#A5D6A7" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:src="@drawable/ic_admin_location_bold"
+                app:tint="#2E7D32" />
+            <TextView
+                android:id="@+id/tvHospital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textColor="#388E3C"
+                tools:text="United Hospital, Gulshan"
+                android:textSize="13sp" />
+        </LinearLayout>
 
+        <!-- Completed Info (Date/Time) -->
         <TextView
             android:id="@+id/tvCompletedInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#2E7D32"
+            tools:text="Donated on: 2026-04-10 AT 09:30 AM"
+            android:textSize="13sp"
             android:textStyle="bold"
-            android:textSize="14sp" />
-            
+            android:layout_marginBottom="12dp" />
+
+        <!-- Notes Container (Optional) -->
+        <LinearLayout
+            android:id="@+id/layoutNotesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C8E6C9"
+                android:layout_marginBottom="12dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NOTES"
+                android:textColor="#81C784"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:layout_marginBottom="4dp" />
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#388E3C"
+                tools:text="Successfully donated 1 bag of blood."
+                android:textSize="13sp"
+                android:layout_marginBottom="12dp" />
+        </LinearLayout>
+
+        <!-- Status Message Container (If any) -->
+        <LinearLayout
+            android:id="@+id/layoutStatusMessageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FINAL STATUS"
+                android:textColor="#1B5E20"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05" />
+            <TextView
+                android:id="@+id/tvStatusMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#1B5E20"
+                android:textStyle="bold"
+                tools:text="Verification Pending"
+                android:textSize="12sp" />
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

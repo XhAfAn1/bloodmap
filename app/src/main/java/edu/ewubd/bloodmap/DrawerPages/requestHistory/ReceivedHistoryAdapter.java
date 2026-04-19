@@ -44,6 +44,20 @@ public class ReceivedHistoryAdapter extends RecyclerView.Adapter<ReceivedHistory
         }
         
         holder.tvCompletedInfo.setText(completedTxt);
+
+        if (model.getStatusMessage() != null && !model.getStatusMessage().isEmpty()) {
+            holder.tvStatusMessage.setText(model.getStatusMessage());
+            holder.layoutStatusMessageContainer.setVisibility(View.VISIBLE);
+        } else {
+            holder.layoutStatusMessageContainer.setVisibility(View.GONE);
+        }
+
+        if (model.getNotes() != null && !model.getNotes().isEmpty()) {
+            holder.tvNotes.setText(model.getNotes());
+            holder.layoutNotesContainer.setVisibility(View.VISIBLE);
+        } else {
+            holder.layoutNotesContainer.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -52,7 +66,8 @@ public class ReceivedHistoryAdapter extends RecyclerView.Adapter<ReceivedHistory
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvPatientDetails, tvHospital, tvCompletedInfo;
+        TextView tvTitle, tvPatientDetails, tvHospital, tvCompletedInfo, tvStatusMessage, tvNotes;
+        View layoutNotesContainer, layoutStatusMessageContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +75,10 @@ public class ReceivedHistoryAdapter extends RecyclerView.Adapter<ReceivedHistory
             tvPatientDetails = itemView.findViewById(R.id.tvPatientDetails);
             tvHospital = itemView.findViewById(R.id.tvHospital);
             tvCompletedInfo = itemView.findViewById(R.id.tvCompletedInfo);
+            tvStatusMessage = itemView.findViewById(R.id.tvStatusMessage);
+            tvNotes = itemView.findViewById(R.id.tvNotes);
+            layoutNotesContainer = itemView.findViewById(R.id.layoutNotesContainer);
+            layoutStatusMessageContainer = itemView.findViewById(R.id.layoutStatusMessageContainer);
         }
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FAFAFA"
@@ -34,15 +35,7 @@
             android:fontFamily="sans-serif-medium"
             android:textStyle="bold" />
 
-        <ImageButton
-            android:id="@+id/menu_more"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_more_vert"
-            app:tint="#800000" />
+
     </RelativeLayout>
 
     <!-- ── Content ── -->
@@ -72,16 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!-- Decorative Background element (Top Right curve) -->
-                    <View
-                        android:layout_width="160dp"
-                        android:layout_height="160dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginEnd="-60dp"
-                        android:layout_marginTop="-60dp"
-                        android:background="@drawable/bg_donor_avatar_circle"
-                        android:alpha="0.3" />
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -104,16 +88,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="O- Required"
+                                    tools:text="O- Positive Needed"
                                     android:textColor="#800000"
-                                    android:textSize="32sp"
+                                    android:textSize="26sp"
                                     android:textStyle="bold" />
-                                <TextView
-                                    android:id="@+id/tvUnitsRequired"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="(2 Units)"
-                                    android:textColor="#555555"
-                                    android:textSize="18sp" />
+
                             </LinearLayout>
 
                             <TextView
@@ -169,6 +148,45 @@
                             </LinearLayout>
                         </LinearLayout>
 
+                        <!-- Reason row -->
+                        <LinearLayout
+                            android:id="@+id/layoutReason"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:src="@drawable/ic_info_bold"
+                                app:tint="#800000"
+                                android:layout_marginEnd="16dp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="REASON FOR REQUEST"
+                                    android:textColor="#999999"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:letterSpacing="0.05" />
+                                <TextView
+                                    android:id="@+id/tvReason"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#333333"
+                                    tools:text="Emergency Heart Surgery"
+                                    android:textSize="15sp"
+                                    android:fontFamily="sans-serif-medium" />
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <!-- Location row -->
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -212,7 +230,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:gravity="center_vertical"
-                            android:layout_marginBottom="24dp">
+                            android:layout_marginBottom="16dp">
                             <ImageView
                                 android:layout_width="22dp"
                                 android:layout_height="22dp"
@@ -236,10 +254,86 @@
                                     android:id="@+id/tvTime"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="20 Apr 2026, 07:31 PM"
                                     android:textColor="#333333"
+                                    tools:text="Needed before 20/04/2026, 10:00 AM"
                                     android:textSize="15sp"
                                     android:fontFamily="sans-serif-medium" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Notes row -->
+                        <LinearLayout
+                            android:id="@+id/layoutNotes"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="16dp"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_notes"
+                                app:tint="#800000"
+                                android:layout_marginEnd="16dp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="ADDITIONAL NOTES"
+                                    android:textColor="#999999"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:letterSpacing="0.05" />
+                                <TextView
+                                    android:id="@+id/tvNotes"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#333333"
+                                    android:textSize="14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Status Message row -->
+                        <LinearLayout
+                            android:id="@+id/layoutStatusMessage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="24dp"
+                            android:visibility="gone">
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:src="@drawable/ic_info_bold"
+                                app:tint="#2E7D32"
+                                android:layout_marginEnd="16dp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="CURRENT STATUS MESSAGE"
+                                    android:textColor="#999999"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold"
+                                    android:letterSpacing="0.05" />
+                                <TextView
+                                    android:id="@+id/tvStatusMessage"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="#2E7D32"
+                                    android:textSize="14sp"
+                                    tools:text="Request Active"
+                                    android:textStyle="bold" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -270,14 +364,73 @@
                         </LinearLayout>
 
                         <!-- tvReason is hidden as it's not in the SS, but keep ID for Java -->
-                        <TextView
-                            android:id="@+id/tvReason"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone" />
+                        <!-- Removed from here and moved to stylized row above -->
 
                     </LinearLayout>
                 </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ── Live Status Update Section ── -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LIVE STATUS UPDATE"
+                        android:textColor="#999999"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.08"
+                        android:layout_marginBottom="16dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutStatusUpdate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Update neighbors/donors (e.g. Needs confirmed)"
+                        app:boxStrokeColor="#800000"
+                        app:hintTextColor="#800000"
+                        app:boxCornerRadiusBottomEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusTopStart="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etStatusUpdate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnUpdateStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="#800000"
+                        android:text="UPDATE STATUS MESSAGE"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="12dp" />
+
+                </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <!-- ── Active Responses Section ── -->
@@ -296,7 +449,8 @@
                 android:id="@+id/recyclerViewResponders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_responder" />
 
             <TextView
                 android:id="@+id/tvEmpty"

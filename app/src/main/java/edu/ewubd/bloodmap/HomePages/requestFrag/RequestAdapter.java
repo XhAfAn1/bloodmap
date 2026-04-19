@@ -50,7 +50,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
     public void onBindViewHolder(@NonNull RequestViewHolder holder, int position) {
         BloodTransactionModel model = requestList.get(position);
         
-        holder.tvTitle.setText(model.getBloodGroup() + " Blood Required (" + model.getUnitsRequired() + " Units)");
+        holder.tvTitle.setText(model.getBloodGroup() + " Blood Required \n(" + model.getUnitsRequired() + " Units)");
         
         // Premium request styling
         if (model.isPremiumRequest()) {
@@ -83,10 +83,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         }
  
         if (model.getNotes() != null && !model.getNotes().isEmpty()) {
-            holder.tvNotes.setText("Notes: " + model.getNotes());
-            holder.tvNotes.setVisibility(View.VISIBLE);
+            holder.tvNotes.setText(model.getNotes());
+            holder.layoutNotesContainer.setVisibility(View.VISIBLE);
         } else {
-            holder.tvNotes.setVisibility(View.GONE);
+            holder.layoutNotesContainer.setVisibility(View.GONE);
         }
  
         String location = model.getHospitalNameArea() != null ? model.getHospitalNameArea() : "";
@@ -106,16 +106,20 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
         
         if (model.getStatusMessage() != null && !model.getStatusMessage().isEmpty()) {
             holder.tvStatusMessage.setText(model.getStatusMessage());
-            holder.tvStatusMessage.setVisibility(View.VISIBLE);
+            holder.layoutStatusMessageContainer.setVisibility(View.VISIBLE);
         } else {
-            holder.tvStatusMessage.setVisibility(View.GONE);
+            holder.layoutStatusMessageContainer.setVisibility(View.GONE);
         }
         
         if (isHistoryMode) {
             holder.btnRespond.setVisibility(View.GONE);
         } else {
             holder.btnRespond.setVisibility(View.VISIBLE);
-            if (model.getResponderUids() != null && model.getResponderUids().contains(currentUid)) {
+            if (currentUid.equals(model.getRequesterUid())) {
+                holder.btnRespond.setText("MANAGE");
+                holder.btnRespond.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#800000")));
+                holder.btnRespond.setEnabled(true);
+            } else if (model.getResponderUids() != null && model.getResponderUids().contains(currentUid)) {
                 holder.btnRespond.setText("RESPONDED");
                 holder.btnRespond.setBackgroundTintList(android.content.res.ColorStateList.valueOf(android.graphics.Color.parseColor("#AAAAAA")));
                 holder.btnRespond.setEnabled(false);
@@ -140,6 +144,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
  
     static class RequestViewHolder extends RecyclerView.ViewHolder {
         TextView tvTitle, tvHospital, tvTime, tvUrgency, tvPatientDetails, tvReason, tvNotes, tvStatusMessage, tvPremiumBadge;
+        View layoutNotesContainer, layoutStatusMessageContainer;
         Button btnRespond;
  
         public RequestViewHolder(@NonNull View itemView) {
@@ -153,6 +158,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.RequestV
             tvNotes = itemView.findViewById(R.id.tvNotes);
             tvStatusMessage = itemView.findViewById(R.id.tvStatusMessage);
             tvPremiumBadge = itemView.findViewById(R.id.tvPremiumBadge);
+            layoutNotesContainer = itemView.findViewById(R.id.layoutNotesContainer);
+            layoutStatusMessageContainer = itemView.findViewById(R.id.layoutStatusMessageContainer);
             btnRespond = itemView.findViewById(R.id.btnRespond);
         }
     }

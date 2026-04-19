@@ -72,6 +72,20 @@ public class MyRequestsAdapter extends RecyclerView.Adapter<MyRequestsAdapter.Vi
         int responses = model.getResponderUids() != null ? model.getResponderUids().size() : 0;
         holder.tvResponsesCount.setText(responses + " Responses Received");
 
+        if (model.getStatusMessage() != null && !model.getStatusMessage().isEmpty()) {
+            holder.tvStatusMessage.setText(model.getStatusMessage());
+            holder.layoutStatusMessageContainer.setVisibility(View.VISIBLE);
+        } else {
+            holder.layoutStatusMessageContainer.setVisibility(View.GONE);
+        }
+
+        if (model.getNotes() != null && !model.getNotes().isEmpty()) {
+            holder.tvNotes.setText(model.getNotes());
+            holder.layoutNotesContainer.setVisibility(View.VISIBLE);
+        } else {
+            holder.layoutNotesContainer.setVisibility(View.GONE);
+        }
+
         holder.btnManage.setOnClickListener(v -> {
             if (listener != null) listener.onManageClick(model, position);
         });
@@ -83,7 +97,8 @@ public class MyRequestsAdapter extends RecyclerView.Adapter<MyRequestsAdapter.Vi
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTitle, tvHospital, tvTime, tvUrgency, tvPatientDetails, tvReason, tvResponsesCount;
+        TextView tvTitle, tvHospital, tvTime, tvUrgency, tvPatientDetails, tvReason, tvResponsesCount, tvStatusMessage, tvNotes;
+        View layoutNotesContainer, layoutStatusMessageContainer;
         Button btnManage;
 
         public ViewHolder(@NonNull View itemView) {
@@ -95,6 +110,10 @@ public class MyRequestsAdapter extends RecyclerView.Adapter<MyRequestsAdapter.Vi
             tvPatientDetails = itemView.findViewById(R.id.tvPatientDetails);
             tvReason = itemView.findViewById(R.id.tvReason);
             tvResponsesCount = itemView.findViewById(R.id.tvResponsesCount);
+            tvStatusMessage = itemView.findViewById(R.id.tvStatusMessage);
+            tvNotes = itemView.findViewById(R.id.tvNotes);
+            layoutNotesContainer = itemView.findViewById(R.id.layoutNotesContainer);
+            layoutStatusMessageContainer = itemView.findViewById(R.id.layoutStatusMessageContainer);
             btnManage = itemView.findViewById(R.id.btnManage);
         }
     }

@@ -39,7 +39,7 @@ import edu.ewubd.bloodmap.Notifications.NotificationSender;
 import edu.ewubd.bloodmap.R;
 
 public class NewRequestFragment extends Fragment {
-    private EditText etPatientName, etPatientAge, etUnitsRequired, etReason, etContactNumber, etNotes, etNeededByTime;
+    private EditText etPatientName, etPatientAge, etUnitsRequired, etReason, etContactNumber, etNotes, etDateNeeded, etTimeNeeded;
     private AutoCompleteTextView etHospitalDetails, etArea;
     private long neededByTimeInMillis = 0;
     private double selectedLatitude = 0.0;
@@ -73,10 +73,12 @@ public class NewRequestFragment extends Fragment {
         etArea = view.findViewById(R.id.etArea);
         etContactNumber = view.findViewById(R.id.etContactNumber);
         etNotes = view.findViewById(R.id.etNotes);
-        etNeededByTime = view.findViewById(R.id.etNeededByTime);
+        etDateNeeded = view.findViewById(R.id.etNeededByTime); 
+        etTimeNeeded = view.findViewById(R.id.etTimeNeeded);
         btnSubmitRequest = view.findViewById(R.id.btnSubmitRequest);
 
-        etNeededByTime.setOnClickListener(v -> showDateTimePicker());
+        etDateNeeded.setOnClickListener(v -> showDatePicker());
+        etTimeNeeded.setOnClickListener(v -> showTimePicker());
 
         setupSpinners();
 
@@ -87,17 +89,17 @@ public class NewRequestFragment extends Fragment {
     private void setupSpinners() {
         if (getContext() == null) return;
         
-        String[] genders = {"Select Gender *", "Male", "Female"};
+        String[] genders = {"Select Gender", "Male", "Female"};
         ArrayAdapter<String> genderAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, genders);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPatientGender.setAdapter(genderAdapter);
 
-        String[] bloodGroups = {"Select Blood Group *", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
+        String[] bloodGroups = {"Select Blood-Group", "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
         ArrayAdapter<String> bloodGroupAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, bloodGroups);
         bloodGroupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBloodGroup.setAdapter(bloodGroupAdapter);
 
-        String[] urgencies = {"Select Urgency *", "Normal", "High", "Critical"};
+        String[] urgencies = {"Select Urgency", "Normal", "High", "Critical"};
         ArrayAdapter<String> urgencyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, urgencies);
         urgencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUrgencyLevel.setAdapter(urgencyAdapter);
@@ -165,27 +167,50 @@ public class NewRequestFragment extends Fragment {
         }
     }
 
-    private void showDateTimePicker() {
+    private int selectedYear = 0, selectedMonth = 0, selectedDay = 0;
+    private int selectedHour = -1, selectedMinute = -1;
+
+    private void showDatePicker() {
         if (getContext() == null) return;
         final Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year = selectedYear > 0 ? selectedYear : calendar.get(Calendar.YEAR);
+        int month = selectedYear > 0 ? selectedMonth : calendar.get(Calendar.MONTH);
+        int day = selectedYear > 0 ? selectedDay : calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, selectedYear, selectedMonth, selectedDay) -> {
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-            TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), (timeView, selectedHour, selectedMinute) -> {
-                Calendar selectedCalendar = Calendar.getInstance();
-                selectedCalendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
-                neededByTimeInMillis = selectedCalendar.getTimeInMillis();
-                String formattedDateTime = String.format(java.util.Locale.getDefault(), "%02d/%02d/%d %02d:%02d", selectedDay, selectedMonth + 1, selectedYear, selectedHour, selectedMinute);
-                etNeededByTime.setText(formattedDateTime);
-            }, hour, minute, false);
-            timePickerDialog.show();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), (view, year1, month1, day1) -> {
+            selectedYear = year1;
+            selectedMonth = month1;
+            selectedDay = day1;
+            String formattedDate = String.format(java.util.Locale.getDefault(), "%02d/%02d/%d", selectedDay, selectedMonth + 1, selectedYear);
+            etDateNeeded.setText(formattedDate);
+            updateCombinedTimestamp();
         }, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
+    }
+
+    private void showTimePicker() {
+        if (getContext() == null) return;
+        final Calendar calendar = Calendar.getInstance();
+        int hour = selectedHour >= 0 ? selectedHour : calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = selectedHour >= 0 ? selectedMinute : calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(), (view, hourOfDay, minute1) -> {
+            selectedHour = hourOfDay;
+            selectedMinute = minute1;
+            String formattedTime = String.format(java.util.Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute);
+            etTimeNeeded.setText(formattedTime);
+            updateCombinedTimestamp();
+        }, hour, minute, false);
+        timePickerDialog.show();
+    }
+
+    private void updateCombinedTimestamp() {
+        if (selectedYear > 0 && selectedHour >= 0) {
+            Calendar selectedCalendar = Calendar.getInstance();
+            selectedCalendar.set(selectedYear, selectedMonth, selectedDay, selectedHour, selectedMinute);
+            neededByTimeInMillis = selectedCalendar.getTimeInMillis();
+        }
     }
 
     private void submitRequest() {
@@ -202,8 +227,9 @@ public class NewRequestFragment extends Fragment {
         String notes = etNotes.getText().toString().trim();
 
         if (patientName.isEmpty() || patientAge.isEmpty() || unitsStr.isEmpty() ||
-            hospitalDetails.isEmpty() || area.isEmpty() || contactNumber.isEmpty() || neededByTimeInMillis == 0) {
-            Toast.makeText(getContext(), "Please fill all required fields", Toast.LENGTH_SHORT).show();
+            hospitalDetails.isEmpty() || area.isEmpty() || contactNumber.isEmpty() || 
+            selectedYear == 0 || selectedHour == -1) {
+            Toast.makeText(getContext(), "Please fill all required fields, including date and time", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -226,7 +252,6 @@ public class NewRequestFragment extends Fragment {
             return;
         }
 
-        // Build the model once here — no re-reading fields later
         BloodTransactionModel model = new BloodTransactionModel();
         model.setTransactionId(UUID.randomUUID().toString());
         model.setRequesterUid(user.getUid());
@@ -358,8 +383,11 @@ public class NewRequestFragment extends Fragment {
         etArea.setText("");
         etContactNumber.setText("");
         etNotes.setText("");
-        etNeededByTime.setText("");
+        etDateNeeded.setText("");
+        etTimeNeeded.setText("");
         neededByTimeInMillis = 0;
+        selectedYear = 0;
+        selectedHour = -1;
         selectedLatitude = 0.0;
         selectedLongitude = 0.0;
     }

@@ -35,8 +35,10 @@ public class ManageRequestActivity extends AppCompatActivity implements Responde
     private ResponderAdapter adapter;
     private List<UserModel> responderList;
     private TextView tvManageHeader, tvEmpty;
-    private TextView tvPatientDetails, tvReason, tvUrgency, tvHospital, tvTime;
-    private Button btnCloseRequest;
+    private TextView tvPatientDetails, tvReason, tvUrgency, tvHospital, tvTime, tvStatusMessage, tvNotes;
+    private android.view.View layoutStatusMessage, layoutNotes, layoutReason;
+    private com.google.android.material.textfield.TextInputEditText etStatusUpdate;
+    private android.view.View btnCloseRequest, btnUpdateStatus;
 
     private String transactionId;
     private BloodTransactionModel currentTransaction;
@@ -55,7 +57,14 @@ public class ManageRequestActivity extends AppCompatActivity implements Responde
         tvUrgency = findViewById(R.id.tvUrgency);
         tvHospital = findViewById(R.id.tvHospital);
         tvTime = findViewById(R.id.tvTime);
+        tvStatusMessage = findViewById(R.id.tvStatusMessage);
+        tvNotes = findViewById(R.id.tvNotes);
+        layoutStatusMessage = findViewById(R.id.layoutStatusMessage);
+        layoutNotes = findViewById(R.id.layoutNotes);
+        layoutReason = findViewById(R.id.layoutReason);
         btnCloseRequest = findViewById(R.id.btnCloseRequest);
+        etStatusUpdate = findViewById(R.id.etStatusUpdate);
+        btnUpdateStatus = findViewById(R.id.btnUpdateStatus);
         recyclerView = findViewById(R.id.recyclerViewResponders);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -71,6 +80,7 @@ public class ManageRequestActivity extends AppCompatActivity implements Responde
         }
 
         btnCloseRequest.setOnClickListener(v -> handleCloseRequest());
+        btnUpdateStatus.setOnClickListener(v -> handleUpdateStatusMessage());
     }
 
     private ListenerRegistration transactionRegistration;
@@ -128,10 +138,10 @@ public class ManageRequestActivity extends AppCompatActivity implements Responde
         tvPatientDetails.setText(currentTransaction.formatPatientDetails());
 
         if (currentTransaction.getReason() != null && !currentTransaction.getReason().isEmpty()) {
-            tvReason.setText("Reason: " + currentTransaction.getReason());
-            tvReason.setVisibility(View.VISIBLE);
+            tvReason.setText(currentTransaction.getReason());
+            layoutReason.setVisibility(View.VISIBLE);
         } else {
-            tvReason.setVisibility(View.GONE);
+            layoutReason.setVisibility(View.GONE);
         }
 
         if (currentTransaction.getUrgencyLevel() != null && !currentTransaction.getUrgencyLevel().isEmpty()) {
@@ -154,6 +164,40 @@ public class ManageRequestActivity extends AppCompatActivity implements Responde
         } else {
             tvTime.setText("Needed By: ASAP");
         }
+
+        if (currentTransaction.getStatusMessage() != null && !currentTransaction.getStatusMessage().isEmpty()) {
+            tvStatusMessage.setText(currentTransaction.getStatusMessage());
+            layoutStatusMessage.setVisibility(View.VISIBLE);
+            if (etStatusUpdate.getText().toString().isEmpty()) {
+                etStatusUpdate.setText(currentTransaction.getStatusMessage());
+            }
+        } else {
+            layoutStatusMessage.setVisibility(View.GONE);
+        }
+
+        if (currentTransaction.getNotes() != null && !currentTransaction.getNotes().isEmpty()) {
+            tvNotes.setText(currentTransaction.getNotes());
+            layoutNotes.setVisibility(View.VISIBLE);
+        } else {
+            layoutNotes.setVisibility(View.GONE);
+        }
+    }
+
+    private void handleUpdateStatusMessage() {
+        String newMessage = etStatusUpdate.getText().toString().trim();
+        if (newMessage.isEmpty()) {
+            Toast.makeText(this, "Please enter a status message", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        FirebaseFirestore.getInstance().collection("transactions").document(transactionId)
+            .update("statusMessage", newMessage)
+            .addOnSuccessListener(aVoid -> {
+                Toast.makeText(this, "Status message updated globally!", Toast.LENGTH_SHORT).show();
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(this, "Failed to update status message.", Toast.LENGTH_SHORT).show();
+            });
     }
 
     private void listenToResponders(List<String> responderUids) {

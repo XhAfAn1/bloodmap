@@ -2,10 +2,11 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    android:layout_marginHorizontal="16dp"
+    android:layout_marginHorizontal="0dp"
     android:layout_marginTop="6dp"
     app:cardBackgroundColor="#F8F8F8"
     app:cardCornerRadius="8dp"
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#555555"
+            tools:text="O+ BLOOD RECEIVED"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -31,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:textColor="#666666"
+            tools:text="Patient: Aziz • 30 Yrs • Male"
             android:textSize="14sp" />
 
         <TextView
@@ -39,7 +42,62 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:textColor="#777777"
+            tools:text="Evercare Hospital, Dhaka"
             android:textSize="14sp" />
+
+        <!-- Notes Container -->
+        <LinearLayout
+            android:id="@+id/layoutNotesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MY NOTES"
+                android:textColor="#BDBDBD"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp" />
+            <TextView
+                android:id="@+id/tvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                tools:text="Received 2 bags successfully."
+                android:textSize="13sp"
+                android:layout_marginBottom="8dp" />
+        </LinearLayout>
+
+        <!-- Status Message Container -->
+        <LinearLayout
+            android:id="@+id/layoutStatusMessageContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FINAL STATUS"
+                android:textColor="#388E3C"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"
+                android:layout_marginTop="4dp" />
+            <TextView
+                android:id="@+id/tvStatusMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#388E3C"
+                android:textStyle="bold"
+                tools:text="Verified by Admin"
+                android:textSize="13sp"
+                android:layout_marginBottom="12dp" />
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -52,6 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#388E3C"
+            tools:text="Received on: 2026-04-12 AT 10:00 AM"
             android:textStyle="italic"
             android:textSize="14sp" />
             
