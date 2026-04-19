@@ -65,7 +65,7 @@ public class AdminBloodBankAdapter extends RecyclerView.Adapter<AdminBloodBankAd
             holder.tv24hBadge.setVisibility(View.GONE);
         }
  
-        // Admin Edit Button - Always visible for this adapter
+        // Admin Edit Button 
         holder.btnEditBank.setVisibility(View.VISIBLE);
         holder.btnCallBank.setVisibility(View.GONE);
         holder.btnNavigateBank.setVisibility(View.GONE);

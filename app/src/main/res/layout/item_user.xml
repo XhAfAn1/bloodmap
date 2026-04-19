@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
@@ -44,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#212121"
+                    tools:text="User Name"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -52,6 +54,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#757575"
+                    tools:text="user@gmail.com"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -62,6 +65,7 @@
                 android:background="@drawable/bg_blood_group_circle"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
+                tools:text="O+"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:elevation="2dp"
@@ -157,12 +161,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#424242"
+                    tools:text="01234567890"
                     android:textSize="13sp" />
                 <TextView
                     android:id="@+id/tvUserLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#424242"
+                    tools:text="Dhanmondi, Dhaka"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -185,6 +191,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#1976D2"
+                    tools:text="PREMIUM"
                     android:textSize="13sp"
                     android:textStyle="bold" />
                 <TextView
@@ -192,6 +199,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#616161"
+                    tools:text="Joined: 2026-04-14"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -214,12 +222,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#2E7D32"
+                    tools:text="Donations: 4"
                     android:textSize="13sp" />
                 <TextView
                     android:id="@+id/tvUserRequests"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#D32F2F"
+                    tools:text="Requests: 2"
                     android:textSize="13sp" />
             </LinearLayout>
 
@@ -242,12 +252,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#424242"
+                    tools:text="Last: 2026-01-10"
                     android:textSize="12sp" />
                 <TextView
                     android:id="@+id/tvNextEligibleDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#D32F2F"
+                    tools:text="Eligible: 2026-05-10"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>

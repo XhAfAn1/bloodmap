@@ -99,14 +99,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         String planLabel = (plan == null || plan.isEmpty()) ? "FREE" : plan;
         holder.tvSubscriptionPlan.setText("Plan: " + planLabel);
         if ("PREMIUM".equalsIgnoreCase(planLabel)) {
-            holder.tvSubscriptionPlan.setTextColor(0xFFFF8F00); // gold/amber for premium
+            holder.tvSubscriptionPlan.setTextColor(0xFFFF8F00); 
         } else {
             holder.tvSubscriptionPlan.setTextColor(0xFF1976D2);
         }
 
         holder.tvCreatedAt.setText("Joined: " + (user.getCreatedAt() != null ? dateFormat.format(user.getCreatedAt()) : "N/A"));
 
-        // 3-dot overflow menu
         holder.ivMoreOptions.setOnClickListener(v -> {
             PopupMenu popup = new PopupMenu(v.getContext(), v);
             

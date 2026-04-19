@@ -58,7 +58,7 @@ public class AdminHospitalAdapter extends RecyclerView.Adapter<AdminHospitalAdap
             holder.tvBloodBankStatus.setVisibility(View.GONE);
         }
  
-        // Admin Edit Button - Always visible for this adapter
+        // Admin Edit Button 
         holder.btnEditHospital.setVisibility(View.VISIBLE);
         holder.btnCallHospital.setVisibility(View.GONE);
         holder.btnNavigateHospital.setVisibility(View.GONE);

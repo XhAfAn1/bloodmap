@@ -43,7 +43,6 @@ public class AddHospitalActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSaveHospital);
         tvFormTitle = findViewById(R.id.tvHospitalFormTitle);
 
-        // Check for Edit Mode
         if (getIntent() != null && getIntent().hasExtra("ID")) {
             hospitalId = getIntent().getStringExtra("ID");
             etHospitalName.setText(getIntent().getStringExtra("NAME"));
@@ -92,7 +91,6 @@ public class AddHospitalActivity extends AppCompatActivity {
             }
         }
 
-        // Use existing ID if in edit mode, else generate new
         final String currentId = (hospitalId != null) ? hospitalId : UUID.randomUUID().toString();
         
         HospitalContactModel model = new HospitalContactModel(

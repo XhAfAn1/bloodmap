@@ -95,9 +95,9 @@ public class AdminRequestAdapter extends RecyclerView.Adapter<AdminRequestAdapte
  
         if (model.getStatusMessage() != null && !model.getStatusMessage().isEmpty()) {
             holder.tvAdminStatusMessage.setText(model.getStatusMessage());
-            holder.tvAdminStatusMessage.setVisibility(View.VISIBLE);
+            holder.layoutAdminStatusMessage.setVisibility(View.VISIBLE);
         } else {
-            holder.tvAdminStatusMessage.setVisibility(View.GONE);
+            holder.layoutAdminStatusMessage.setVisibility(View.GONE);
         }
 
         holder.tvAdminCreatedAt.setText("Created: " + sdf.format(new Date(model.getCreatedAt())));
@@ -107,6 +107,13 @@ public class AdminRequestAdapter extends RecyclerView.Adapter<AdminRequestAdapte
             holder.tvAdminCompletedAt.setVisibility(View.VISIBLE);
         } else {
             holder.tvAdminCompletedAt.setVisibility(View.GONE);
+        }
+
+        if (model.getNotes() != null && !model.getNotes().isEmpty()) {
+            holder.tvAdminNotes.setText(model.getNotes());
+            holder.layoutAdminNotes.setVisibility(View.VISIBLE);
+        } else {
+            holder.layoutAdminNotes.setVisibility(View.GONE);
         }
     }
  
@@ -150,7 +157,8 @@ public class AdminRequestAdapter extends RecyclerView.Adapter<AdminRequestAdapte
         TextView tvAdminTitle, tvAdminStatusBadge, tvAdminUrgency, tvAdminTimeNeeded;
         TextView tvAdminPatientName, tvAdminRequesterUid, tvAdminRequesterName, tvAdminContact, tvAdminHospital;
         TextView tvAdminResponders, tvAdminSelectedDonor, tvAdminSelectedDonorName, tvAdminStatusMessage;
-        TextView tvAdminCreatedAt, tvAdminCompletedAt;
+        TextView tvAdminCreatedAt, tvAdminCompletedAt, tvAdminNotes;
+        View layoutAdminNotes, layoutAdminStatusMessage;
  
         public AdminRequestViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -169,6 +177,9 @@ public class AdminRequestAdapter extends RecyclerView.Adapter<AdminRequestAdapte
             tvAdminStatusMessage = itemView.findViewById(R.id.tvAdminStatusMessage);
             tvAdminCreatedAt = itemView.findViewById(R.id.tvAdminCreatedAt);
             tvAdminCompletedAt = itemView.findViewById(R.id.tvAdminCompletedAt);
+            tvAdminNotes = itemView.findViewById(R.id.tvAdminNotes);
+            layoutAdminNotes = itemView.findViewById(R.id.layoutAdminNotes);
+            layoutAdminStatusMessage = itemView.findViewById(R.id.layoutAdminStatusMessage);
         }
     }
 }

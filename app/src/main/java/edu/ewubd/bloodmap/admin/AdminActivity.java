@@ -56,6 +56,7 @@ public class AdminActivity extends AppCompatActivity {
         findViewById(R.id.menu_manage_locations).setOnClickListener(v -> closeDrawerAndStart(AdminManageLocationsActivity.class));
         findViewById(R.id.menu_active_requests).setOnClickListener(v -> closeDrawerAndStartAdminRequests("OPEN"));
         findViewById(R.id.menu_previous_requests).setOnClickListener(v -> closeDrawerAndStartAdminRequests("COMPLETED"));
+        findViewById(R.id.menu_user_guide_admin).setOnClickListener(v -> closeDrawerAndStart(edu.ewubd.bloodmap.Documentation.UserGuideActivity.class));
         
         findViewById(R.id.btn_mass_alert).setOnClickListener(v -> {
             String title = etBroadcastTitle.getText().toString().trim();
