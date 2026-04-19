@@ -23,9 +23,14 @@ import java.util.Comparator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import android.os.Handler;
+import android.os.Looper;
 
 import edu.ewubd.bloodmap.ClassModels.HospitalContactModel;
 import edu.ewubd.bloodmap.R;
+import edu.ewubd.bloodmap.database.LocalDatabaseManager;
 
 public class HospitalContactsActivity extends AppCompatActivity {
 
@@ -35,6 +40,8 @@ public class HospitalContactsActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FusedLocationProviderClient fusedLocationClient;
     private Double userLat, userLong;
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private LocalDatabaseManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,7 @@ public class HospitalContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hospital_contacts);
         findViewById(R.id.back_button).setOnClickListener(v -> finish());
         
+        dbManager = new LocalDatabaseManager(this);
         recyclerView = findViewById(R.id.recyclerViewHospitals);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
@@ -87,8 +95,6 @@ public class HospitalContactsActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void loadHospitals() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
@@ -98,21 +104,40 @@ public class HospitalContactsActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 
                 if (e != null) {
-                    Toast.makeText(this, "Failed to load hospitals", Toast.LENGTH_SHORT).show();
+                    loadFromCache();
                     return;
                 }
  
                 if (queryDocumentSnapshots != null) {
                     recyclerView.setVisibility(View.VISIBLE);
                     hospitalList.clear();
+                    List<HospitalContactModel> syncList = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         HospitalContactModel model = doc.toObject(HospitalContactModel.class);
                         hospitalList.add(model);
+                        syncList.add(model);
                     }
+                    dbManager.syncHospitals(syncList);
                     sortHospitalsByDistance();
                     adapter.notifyDataSetChanged();
+                } else {
+                    loadFromCache();
                 }
             });
+    }
+
+    private void loadFromCache() {
+        List<HospitalContactModel> cached = dbManager.getCachedHospitals();
+        if (cached != null && !cached.isEmpty()) {
+            recyclerView.setVisibility(View.VISIBLE);
+            hospitalList.clear();
+            hospitalList.addAll(cached);
+            sortHospitalsByDistance();
+            adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Showing cached offline hospitals.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No offline data available.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sortHospitalsByDistance() {
@@ -126,5 +151,10 @@ public class HospitalContactsActivity extends AppCompatActivity {
             return Float.compare(res1[0], res2[0]);
         });
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

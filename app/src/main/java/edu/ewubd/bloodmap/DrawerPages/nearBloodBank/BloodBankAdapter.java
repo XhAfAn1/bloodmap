@@ -67,13 +67,17 @@ public class BloodBankAdapter extends RecyclerView.Adapter<BloodBankAdapter.Bank
 
         // Coordinates
         String coordStr = String.format("Coordinates: %.4f, %.4f", model.getLatitude(), model.getLongitude());
+        holder.tvBankCoordinates.setText(coordStr);
+
         if (userLat != null && userLong != null) {
             float[] results = new float[1];
             Location.distanceBetween(userLat, userLong, model.getLatitude(), model.getLongitude(), results);
             float distanceKm = results[0] / 1000f;
-            coordStr += String.format(" (%.2f km away)", distanceKm);
+            holder.tvDistance.setText(String.format("%.2f km away", distanceKm));
+            holder.tvDistance.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvDistance.setVisibility(View.GONE);
         }
-        holder.tvBankCoordinates.setText(coordStr);
 
         // 24h Badge
         if (model.isOpen24Hours()) {
@@ -111,7 +115,7 @@ public class BloodBankAdapter extends RecyclerView.Adapter<BloodBankAdapter.Bank
     }
 
     static class BankViewHolder extends RecyclerView.ViewHolder {
-        TextView tvBankName, tvContact, tvAddress, tvStockSummary, tvBankCoordinates, tv24hBadge;
+        TextView tvBankName, tvContact, tvAddress, tvStockSummary, tvBankCoordinates, tvDistance, tv24hBadge;
         ImageButton btnEditBank;
         View btnCallBank, btnNavigateBank;
 
@@ -122,6 +126,7 @@ public class BloodBankAdapter extends RecyclerView.Adapter<BloodBankAdapter.Bank
             tvAddress = itemView.findViewById(R.id.tvAddress);
             tvStockSummary = itemView.findViewById(R.id.tvStockSummary);
             tvBankCoordinates = itemView.findViewById(R.id.tvBankCoordinates);
+            tvDistance = itemView.findViewById(R.id.tvDistance);
             tv24hBadge = itemView.findViewById(R.id.tv24hBadge);
             btnEditBank = itemView.findViewById(R.id.btnEditBank);
             btnCallBank = itemView.findViewById(R.id.btnCallBank);

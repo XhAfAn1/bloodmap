@@ -60,13 +60,17 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
         // Display Coordinates
         String coordStr = String.format("Coordinates: %.4f, %.4f", model.getLatitude(), model.getLongitude());
+        holder.tvCoordinates.setText(coordStr);
+
         if (userLat != null && userLong != null) {
             float[] results = new float[1];
             Location.distanceBetween(userLat, userLong, model.getLatitude(), model.getLongitude(), results);
             float distanceKm = results[0] / 1000f;
-            coordStr += String.format(" (%.2f km away)", distanceKm);
+            holder.tvDistance.setText(String.format("%.2f km away", distanceKm));
+            holder.tvDistance.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvDistance.setVisibility(View.GONE);
         }
-        holder.tvCoordinates.setText(coordStr);
 
         // Display Blood Bank Status
         if (model.isHasBloodBank()) {
@@ -104,7 +108,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     }
 
     static class HospitalViewHolder extends RecyclerView.ViewHolder {
-        TextView tvHospitalName, tvHospitalContact, tvHospitalAddress, tvFacilities, tvCoordinates, tvBloodBankStatus;
+        TextView tvHospitalName, tvHospitalContact, tvHospitalAddress, tvFacilities, tvCoordinates, tvDistance, tvBloodBankStatus;
         ImageButton btnEditHospital;
         View btnCallHospital, btnNavigateHospital;
 
@@ -115,6 +119,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             tvHospitalAddress = itemView.findViewById(R.id.tvHospitalAddress);
             tvFacilities = itemView.findViewById(R.id.tvFacilities);
             tvCoordinates = itemView.findViewById(R.id.tvCoordinates);
+            tvDistance = itemView.findViewById(R.id.tvDistance);
             tvBloodBankStatus = itemView.findViewById(R.id.tvBloodBankStatus);
             btnEditHospital = itemView.findViewById(R.id.btnEditHospital);
             btnCallHospital = itemView.findViewById(R.id.btnCallHospital);

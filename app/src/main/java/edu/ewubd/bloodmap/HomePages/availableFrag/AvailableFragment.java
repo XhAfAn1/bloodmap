@@ -26,6 +26,7 @@ import java.util.Map;
 
 import edu.ewubd.bloodmap.ClassModels.UserModel;
 import edu.ewubd.bloodmap.R;
+import edu.ewubd.bloodmap.database.LocalDatabaseManager;
 
 public class AvailableFragment extends Fragment {
 
@@ -37,12 +38,14 @@ public class AvailableFragment extends Fragment {
     private List<AvailableItemModel> masterList = new ArrayList<>();
     private List<AvailableItemModel> filteredList = new ArrayList<>();
     private ListenerRegistration availableRegistration;
+    private LocalDatabaseManager dbManager;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_available, container, false);
 
+        dbManager = new LocalDatabaseManager(getContext());
         rvAvailableHierarchy = view.findViewById(R.id.rvAvailableHierarchy);
         etSearchAvailable = view.findViewById(R.id.etSearchAvailable);
 
@@ -59,7 +62,7 @@ public class AvailableFragment extends Fragment {
             @Override public void afterTextChanged(Editable s) {}
         });
 
-        // Read search query from Bundle args (set by navigateToAvailableWithQuery in MainActivity)
+        // Read search query from Bundle args
         if (getArguments() != null) {
             pendingSearchQuery = getArguments().getString("searchQuery");
         }
@@ -87,18 +90,18 @@ public class AvailableFragment extends Fragment {
                 .whereEqualTo("availableToDonate", true)
                 .addSnapshotListener((queryDocumentSnapshots, e) -> {
                     if (e != null) {
-                        if (getContext() != null) {
-                            Toast.makeText(getContext(), "Failed to fetch donors.", Toast.LENGTH_SHORT).show();
-                        }
+                        loadFromCache();
                         return;
                     }
 
                     if (queryDocumentSnapshots != null) {
+                        List<UserModel> donorList = new ArrayList<>();
                         Map<String, List<UserModel>> areaGroups = new HashMap<>();
 
                         for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                             try {
                                 UserModel user = doc.toObject(UserModel.class);
+                                donorList.add(user);
                                 String area = (user.getLocationArea() != null && !user.getLocationArea().isEmpty()) 
                                                 ? user.getLocationArea() : "Unknown Area";
                                 
@@ -111,14 +114,42 @@ public class AvailableFragment extends Fragment {
                             }
                         }
 
+                        // Sync to local DB
+                        dbManager.syncDonors(donorList);
+
                         buildHierarchy(areaGroups);
                         
                         if (pendingSearchQuery != null) {
                             etSearchAvailable.setText(pendingSearchQuery);
                             pendingSearchQuery = null;
                         }
+                    } else {
+                        loadFromCache();
                     }
                 });
+    }
+
+    private void loadFromCache() {
+        List<UserModel> cachedDonors = dbManager.getCachedDonors();
+        if (cachedDonors != null && !cachedDonors.isEmpty()) {
+            Map<String, List<UserModel>> areaGroups = new HashMap<>();
+            for (UserModel user : cachedDonors) {
+                String area = (user.getLocationArea() != null && !user.getLocationArea().isEmpty()) 
+                                ? user.getLocationArea() : "Unknown Area";
+                if (!areaGroups.containsKey(area)) {
+                    areaGroups.put(area, new ArrayList<>());
+                }
+                areaGroups.get(area).add(user);
+            }
+            buildHierarchy(areaGroups);
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "Showing cached offline results.", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "No offline data available.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void buildHierarchy(Map<String, List<UserModel>> areaGroups) {
@@ -140,7 +171,7 @@ public class AvailableFragment extends Fragment {
         masterList.add(dhakaNode);
         masterList.addAll(dhakaAreas);
 
-        // 2. EMPTY DIVISIONS (Placeholder Logic)
+        // 2. EMPTY DIVISIONS 
         masterList.add(new AvailableItemModel(AvailableItemModel.TYPE_DIVISION, "Khulna"));
         masterList.add(new AvailableItemModel(AvailableItemModel.TYPE_DIVISION, "Barishal"));
         masterList.add(new AvailableItemModel(AvailableItemModel.TYPE_DIVISION, "Chittagong"));
@@ -149,7 +180,7 @@ public class AvailableFragment extends Fragment {
         masterList.add(new AvailableItemModel(AvailableItemModel.TYPE_DIVISION, "Rangpur"));
         masterList.add(new AvailableItemModel(AvailableItemModel.TYPE_DIVISION, "Mymensingh"));
 
-        filterData(""); // Initialize list unconditionally
+        filterData(""); 
     }
 
     private void filterData(String query) {
@@ -161,17 +192,14 @@ public class AvailableFragment extends Fragment {
         } else {
             for (AvailableItemModel item : masterList) {
                 if (item.getType() == AvailableItemModel.TYPE_DIVISION) {
-                    // Always show divisions (or we can hide them, but showing is structured)
                     filteredList.add(item);
                 } else if (item.getType() == AvailableItemModel.TYPE_AREA) {
                     
-                    // Priority 1: Area matched name
                     if (item.getName().toLowerCase().contains(lowerQuery)) {
                         filteredList.add(item);
                         continue;
                     }
                     
-                    // Priority 2: Filter Donors by Blood Group and rebuild node if matches exist
                     List<UserModel> matchingDonors = new ArrayList<>();
                     for (UserModel donor : item.getDonors()) {
                         if (donor.getBloodGroup() != null && donor.getBloodGroup().toLowerCase().contains(lowerQuery)) {
@@ -181,7 +209,7 @@ public class AvailableFragment extends Fragment {
                     
                     if (!matchingDonors.isEmpty()) {
                         AvailableItemModel filteredAreaNode = new AvailableItemModel(AvailableItemModel.TYPE_AREA, item.getName(), matchingDonors);
-                        filteredAreaNode.setExpanded(true); // Auto-expand when manually matched
+                        filteredAreaNode.setExpanded(true); 
                         filteredList.add(filteredAreaNode);
                     }
                 }

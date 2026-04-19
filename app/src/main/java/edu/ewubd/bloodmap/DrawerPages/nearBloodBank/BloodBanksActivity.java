@@ -23,9 +23,14 @@ import java.util.Comparator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import android.os.Handler;
+import android.os.Looper;
 
 import edu.ewubd.bloodmap.ClassModels.BloodBankModel;
 import edu.ewubd.bloodmap.R;
+import edu.ewubd.bloodmap.database.LocalDatabaseManager;
 
 public class BloodBanksActivity extends AppCompatActivity {
 
@@ -35,6 +40,8 @@ public class BloodBanksActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private FusedLocationProviderClient fusedLocationClient;
     private Double userLat, userLong;
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private LocalDatabaseManager dbManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,7 @@ public class BloodBanksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_blood_banks);
         findViewById(R.id.back_button).setOnClickListener(v -> finish());
         
+        dbManager = new LocalDatabaseManager(this);
         recyclerView = findViewById(R.id.recyclerViewBloodBanks);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         
@@ -87,8 +95,6 @@ public class BloodBanksActivity extends AppCompatActivity {
         }
     }
 
-
-
     private void loadBloodBanks() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
@@ -98,21 +104,40 @@ public class BloodBanksActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 
                 if (e != null) {
-                    Toast.makeText(this, "Failed to load blood banks", Toast.LENGTH_SHORT).show();
+                    loadFromCache();
                     return;
                 }
  
                 if (queryDocumentSnapshots != null) {
                     recyclerView.setVisibility(View.VISIBLE);
                     bankList.clear();
+                    List<BloodBankModel> syncList = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         BloodBankModel model = doc.toObject(BloodBankModel.class);
                         bankList.add(model);
+                        syncList.add(model);
                     }
+                    dbManager.syncBloodBanks(syncList);
                     sortBanksByDistance();
                     adapter.notifyDataSetChanged();
+                } else {
+                    loadFromCache();
                 }
             });
+    }
+
+    private void loadFromCache() {
+        List<BloodBankModel> cached = dbManager.getCachedBloodBanks();
+        if (cached != null && !cached.isEmpty()) {
+            recyclerView.setVisibility(View.VISIBLE);
+            bankList.clear();
+            bankList.addAll(cached);
+            sortBanksByDistance();
+            adapter.notifyDataSetChanged();
+            Toast.makeText(this, "Showing cached offline blood banks.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No offline data available.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void sortBanksByDistance() {
@@ -126,5 +151,10 @@ public class BloodBanksActivity extends AppCompatActivity {
             return Float.compare(res1[0], res2[0]);
         });
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
