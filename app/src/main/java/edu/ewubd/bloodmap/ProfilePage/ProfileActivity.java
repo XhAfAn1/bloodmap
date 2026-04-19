@@ -37,6 +37,8 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView tvViewName, tvViewEmail, tvViewBloodGroup, tvViewStatus;
     private TextView tvViewPhone, tvViewLocation, tvViewAddress;
     private TextView tvViewGender, tvViewDob;
+    private TextView tvViewSubscription;
+    private androidx.cardview.widget.CardView cardSubscriptionIndicator;
     private TextView tvViewDonations, tvViewRequests, tvViewAvailability;
 
     // Edit Mode UI
@@ -86,6 +88,8 @@ public class ProfileActivity extends AppCompatActivity {
         tvViewDonations = findViewById(R.id.tvViewDonations);
         tvViewRequests = findViewById(R.id.tvViewRequests);
         tvViewAvailability = findViewById(R.id.tvViewAvailability);
+        tvViewSubscription = findViewById(R.id.tvViewSubscription);
+        cardSubscriptionIndicator = findViewById(R.id.cardSubscriptionIndicator);
 
         // Init Edit Mode Inputs
         etFullName = findViewById(R.id.etFullName);
@@ -233,24 +237,46 @@ public class ProfileActivity extends AppCompatActivity {
         tvViewName.setText(currentModel.getName() != null && !currentModel.getName().isEmpty() ? currentModel.getName() : "Anonymous");
         tvViewEmail.setText(currentModel.getEmail() != null ? currentModel.getEmail() : "No email");
         
+        // Handle Blood Group
         String bg = currentModel.getBloodGroup();
-        if (bg == null || bg.isEmpty()) {
-            tvViewBloodGroup.setText("N/A");
-            tvViewBloodGroup.setBackgroundColor(0xFF888888);
-        } else {
-            tvViewBloodGroup.setText(bg);
-            tvViewBloodGroup.setBackgroundColor(0xFFD11A2A);
-        }
+        tvViewBloodGroup.setText(isNullOrEmpty(bg) ? "N/A" : bg);
 
+        // Handle Status
         String status = currentModel.getStatus();
         if (status == null || status.isEmpty()) status = "ACTIVE";
         tvViewStatus.setText(status);
+        
+        View statusCard = (View) tvViewStatus.getParent().getParent();
         if (status.equalsIgnoreCase("BLOCKED")) {
-            tvViewStatus.setBackgroundColor(0xFFFFCDD2);
+            if (statusCard instanceof androidx.cardview.widget.CardView) {
+                ((androidx.cardview.widget.CardView) statusCard).setCardBackgroundColor(0xFFFFCDD2);
+            }
             tvViewStatus.setTextColor(0xFFD32F2F);
         } else {
-            tvViewStatus.setBackgroundColor(0xFFE8F5E9);
+            if (statusCard instanceof androidx.cardview.widget.CardView) {
+                ((androidx.cardview.widget.CardView) statusCard).setCardBackgroundColor(0xFFE8F5E9);
+            }
             tvViewStatus.setTextColor(0xFF2E7D32);
+        }
+
+        // Handle Subscription Plan
+        String plan = currentModel.getSubscriptionPlan();
+        if (plan == null || plan.isEmpty()) plan = "FREE";
+        tvViewSubscription.setText(plan.toUpperCase());
+        
+        View planCard = (View) tvViewSubscription.getParent().getParent();
+        if (plan.equalsIgnoreCase("PREMIUM")) {
+            if (planCard instanceof androidx.cardview.widget.CardView) {
+                ((androidx.cardview.widget.CardView) planCard).setCardBackgroundColor(0xFFFFF8E1); // Amber 50
+            }
+            tvViewSubscription.setTextColor(0xFFFF8F00); // Amber 800
+            cardSubscriptionIndicator.setCardBackgroundColor(android.content.res.ColorStateList.valueOf(0xFFFF8F00));
+        } else {
+            if (planCard instanceof androidx.cardview.widget.CardView) {
+                ((androidx.cardview.widget.CardView) planCard).setCardBackgroundColor(0xFFE3F2FD); // Blue 50
+            }
+            tvViewSubscription.setTextColor(0xFF1976D2); // Blue 700
+            cardSubscriptionIndicator.setCardBackgroundColor(android.content.res.ColorStateList.valueOf(0xFF1976D2));
         }
 
         tvViewPhone.setText("Phone: " + (isNullOrEmpty(currentModel.getContactNumber()) ? "Not set" : currentModel.getContactNumber()));

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoktoDhara User Manual</title>
+    <style>
+        :root {
+            --primary-color: #A30F24;
+            --secondary-color: #800000;
+            --text-color: #374151;
+            --bg-color: #F9FAFB;
+            --card-bg: #FFFFFF;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 28px;
+        }
+        h2 {
+            color: var(--secondary-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 15px;
+            margin-top: 30px;
+            font-size: 20px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .db-section {
+            background: #FFF5F5;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #FED7D7;
+            margin: 20px 0;
+        }
+        .db-section h3 {
+            margin-top: 0;
+            color: #C53030;
+            font-size: 16px;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        code {
+            background: #EDF2F7;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .badge {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #9CA3AF;
+            font-size: 12px;
+            border-top: 1px solid #E5E7EB;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="badge">V 1.2.0 Official Documentation</div>
+            <h1>RoktoDhara User & Technical Manual</h1>
+            <p>Empowering Blood Donation Through Data & Community</p>
+        </header>
+
+        <section id="introduction">
+            <h2>1. Introduction</h2>
+            <p>RoktoDhara is a state-of-the-art blood donation management system designed to connect donors with patients in real-time. By leveraging cloud synchronization and local geospatial processing, we ensure that help is always just a few taps away.</p>
+        </section>
+
+        <section id="database-analysis">
+            <h2>2. Database Ecosystem Analysis</h2>
+            <p>The application operates on a hybrid database architecture to provide "Offline-First" reliability.</p>
+            
+            <div class="db-section">
+                <h3>Cloud Layer (Firebase Firestore)</h3>
+                <p>All real-time data is handled by Firestore, using three primary document trees:</p>
+                <ul>
+                    <li><strong>Users:</strong> Stores authentication metadata, donation eligibility, and device tokens for mass alerts.</li>
+                    <li><strong>Blood Requests:</strong> Tracks patient details, blood group requirements, and fulfillment status.</li>
+                    <li><strong>Health Facilities:</strong> A master list of certified Hospitals and Blood Banks nationwide.</li>
+                </ul>
+            </div>
+
+            <div class="db-section">
+                <h3>Local Layer (SQLite Persistence)</h3>
+                <p>To support users without reliable internet, the app maintains a local cache (<code>rokto_dhara_cache.db</code>):</p>
+                <ul>
+                    <li><strong>Sync Logic:</strong> Whenever you are online, the app automatically pulls updates and overwrites the local SQLite tables.</li>
+                    <li><strong>Tables:</strong> <code>donors</code>, <code>hospitals</code>, and <code>blood_banks</code> are stored locally to allow distance sorting and searching in <strong>Offline Mode</strong>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="features">
+            <h2>3. Core Features Guide</h2>
+            
+            <h3>3.1 Finding Donors</h3>
+            <p>The "Available Donors" section uses live geospatial data. When you search, the app calculates the distance between your current GPS coordinates and the donor's registered location.</p>
+
+            <h3>3.2 Creating Requests</h3>
+            <p>When you create a <strong>New Request</strong>, the system broadcasts a notification to all users matching the requested blood group within your division. Premium requests are highlighted in the feed for higher visibility.</p>
+
+            <h3>3.3 Offline Dashboard</h3>
+            <p>Accessible from the login screen, the <strong>Offline Mode</strong> allows you to browse cached contact details for hospitals and blood banks even if you have no data connection.</p>
+        </section>
+
+        <section id="admin">
+            <h2>4. Administrative Controls</h2>
+            <p>For administrators, the portal provides high-level oversight:</p>
+            <ul>
+                <li><strong>Mass Alerts:</strong> Send emergency broadcasts to all registered users simultaneously.</li>
+                <li><strong>Moderation:</strong> Banning or upgrading users to premium status based on their donation history.</li>
+                <li><strong>Facility Management:</strong> Adding or editing hospital and blood bank metadata directly.</li>
+            </ul>
+        </section>
+
+        <section id="faq">
+            <h2>5. Frequently Asked Questions</h2>
+            <p><strong>Q: Why do I need to agree to terms?</strong><br>
+            A: To maintain community safety and ensure valid data for medical emergencies.</p>
+            <p><strong>Q: Is my location shared?</strong><br>
+            A: only for the purpose of distance calculation between you and those in need. Precise coordinates are never displayed to regular users.</p>
+        </section>
+
+        <footer>
+            © 2026 RoktoDhara Development Team<br>
+            Academic Project for CSE489 - Team Dynasty
+        </footer>
+    </div>
+</body>
+</html>
